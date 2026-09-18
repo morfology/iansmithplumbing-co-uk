@@ -1,0 +1,18 @@
+---
+import { client } from '../config/client'
+
+// Static strip rather than a fixed overlay: it must never compete with the
+// sticky CTA bar for thumb space on a phone, and a dismiss button would mean
+// shipping JS for it.
+---
+
+{
+  client.isDemo && (
+    <div
+      class="px-5 py-2 text-center text-sm font-medium"
+      style="background: var(--demo-bg); color: var(--demo-text);"
+    >
+      Demo site — example business, not a real trader
+    </div>
+  )
+}

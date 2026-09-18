@@ -27,6 +27,13 @@
      alert border it used to borrow. */
   --badge-bg: #b91c1c;
   --badge-text: #ffffff;
+
+  --demo-bg: #1e293b;
+  --demo-text: #e2e8f0;
+
+  /* Link text. The accent is a *background* colour (white sits on it), so it
+     can't be trusted as text on every ground — dark mode falls back to --text. */
+  --link: var(--accent);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,6 +57,11 @@
 
     --badge-bg: #f87171;
     --badge-text: #450a0a;
+
+    --demo-bg: #1e293b;
+    --demo-text: #e2e8f0;
+
+    --link: var(--text);
   }
 }
 

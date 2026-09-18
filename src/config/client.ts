@@ -5,8 +5,8 @@ export interface Review {
 }
 
 export interface Area {
-  slug: string     // "hook"
-  name: string     // "Hook"
+  slug: string     // "middleford"
+  name: string     // "Middleford"
   blurb?: string   // optional one-liner for the area page
 }
 
@@ -18,9 +18,9 @@ export interface ClientConfig {
   owner: string
 
   // contact
-  phone: string                 // display: "07977 097675"
-  phoneE164: string             // tel: href, "+447977097675"
-  whatsappNumber: string        // wa.me, no + and no spaces: "447977097675"
+  phone: string                 // display: "07700 900123"
+  phoneE164: string             // tel: href, "+447700900123"
+  whatsappNumber: string        // wa.me, no + and no spaces: "447700900123"
   email?: string
 
   // credentials
@@ -46,29 +46,32 @@ export interface ClientConfig {
 
   // tracking
   eventEndpoint?: string        // n8n webhook for click events
+
+  // demo
+  isDemo?: boolean              // true in the template, omitted in client repos
 }
 
+// src/config/client.ts — DEMO DATA. Overwrite in each client repo.
 export const client: ClientConfig = {
-  businessName: 'Ian Smith Plumbing',
+  businessName: 'Marlow & Sons Plumbing',
   tagline: 'Leaks, burst pipes and emergency callouts',
   trade: 'plumber',
-  owner: 'Ian',
+  owner: 'Dave',
 
-  phone: 'TODO',
-  phoneE164: 'TODO',
-  whatsappNumber: 'TODO',        // same number as phoneE164, minus the +
+  // Ofcom's reserved drama range — never a real subscriber
+  phone: '07700 900123',
+  phoneE164: '+447700900123',
+  whatsappNumber: '447700900123',
 
-  gasSafeNumber: 'TODO — confirm he does gas at all',
+  gasSafeNumber: '123456',
   insured: true,
 
-  baseTown: 'Newnham',
+  baseTown: 'Middleford',
   areas: [
-    // TODO confirm the real radius with Ian — these are a first guess
-    { slug: 'hook', name: 'Hook' },
-    { slug: 'hartley-wintney', name: 'Hartley Wintney' },
-    { slug: 'odiham', name: 'Odiham' },
-    { slug: 'fleet', name: 'Fleet' },
-    { slug: 'basingstoke', name: 'Basingstoke' },
+    { slug: 'middleford', name: 'Middleford' },
+    { slug: 'ashcombe', name: 'Ashcombe' },
+    { slug: 'netherby', name: 'Netherby' },
+    { slug: 'stanton-green', name: 'Stanton Green' },
   ],
 
   services: [
@@ -77,8 +80,13 @@ export const client: ClientConfig = {
   ],
   emergencyServices: ['Leak repair', 'Burst pipes', 'No water'],
 
-  reviews: [],                   // TODO — pull 3–4 short ones off Checkatrade
+  reviews: [
+    { quote: 'Came out the same evening for a burst pipe. Sorted in an hour.', author: 'Sarah M.', source: 'Checkatrade' },
+    { quote: 'Honest, tidy, and told me what I did not need doing.', author: 'James P.', source: 'Checkatrade' },
+    { quote: 'Quoted on the Monday, done by Wednesday. No fuss.', author: 'Angela R.', source: 'Google' },
+  ],
 
   accent: '#1f4e79',
   accentDark: '#153854',
+  isDemo: true,
 }

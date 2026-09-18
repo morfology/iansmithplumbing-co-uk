@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import { client } from '../config/client'
+import DemoBanner from '../components/DemoBanner.astro'
 import { known } from '../lib/todo'
 import { schemaType, sentenceCase, joinNames } from '../lib/seo'
 
@@ -10,7 +11,8 @@ interface Props {
 }
 
 const areaNames = client.areas.map((a) => a.name)
-const nearby = areaNames[0]
+// baseTown is often also listed in areas — don't title it "X & X"
+const nearby = areaNames.find((name) => name !== client.baseTown)
 
 const defaultTitle = [
   `${client.businessName} — Emergency ${sentenceCase(client.trade)} in ${client.baseTown}`,
@@ -32,7 +34,7 @@ const jsonLd: Record<string, unknown> = {
   '@type': schemaType(client.trade),
   name: client.businessName,
   description: client.tagline,
-  areaServed: [client.baseTown, ...areaNames].map((name) => ({ '@type': 'Place', name })),
+  areaServed: [...new Set([client.baseTown, ...areaNames])].map((name) => ({ '@type': 'Place', name })),
   ...(phone ? { telephone: phone } : {}),
   ...(email ? { email } : {}),
 }
@@ -55,6 +57,7 @@ const jsonLd: Record<string, unknown> = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="pb-24 md:pb-0">
+    <DemoBanner />
     <slot />
     {
       client.eventEndpoint && (
