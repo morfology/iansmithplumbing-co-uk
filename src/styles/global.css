@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* Tokens defined on :root first. --accent / --accent-dark are overridden inline
+   from client.ts in the base layout, so a new client is a config swap, not a
+   Tailwind rebuild. */
+:root {
+  color-scheme: light;
+
+  --accent: #1f2937;
+  --accent-dark: #111827;
+  --accent-ink: #ffffff;
+
+  --bg: #ffffff;
+  --surface: #f6f7f9;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #e5e7eb;
+
+  --alert-bg: #fef2f2;
+  --alert-border: #b91c1c;
+  --alert-text: #7f1d1d;
+
+  --todo-bg: #facc15;
+  --todo-text: #422006;
+
+  /* Emergency badge: own token so text flips with the theme, unlike the
+     alert border it used to borrow. */
+  --badge-bg: #b91c1c;
+  --badge-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --accent-ink: #ffffff;
+
+    --bg: #0d1117;
+    --surface: #161b22;
+    --text: #e6edf3;
+    --muted: #9ca3af;
+    --border: #2d333b;
+
+    --alert-bg: #2a1113;
+    --alert-border: #f87171;
+    --alert-text: #fecaca;
+
+    --todo-bg: #facc15;
+    --todo-text: #422006;
+
+    --badge-bg: #f87171;
+    --badge-text: #450a0a;
+  }
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Body must never scroll horizontally. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  line-height: 1.55;
+}
+
+/* Every CTA clears the 48px minimum tap target. */
+.tap {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

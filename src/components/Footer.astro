@@ -1,0 +1,42 @@
+---
+import { client } from '../config/client'
+import { known } from '../lib/todo'
+import { joinNames, sentenceCase } from '../lib/seo'
+import Todo from './Todo.astro'
+
+const phone = known(client.phone)
+const tel = known(client.phoneE164)
+const areaNames = client.areas.map((a) => a.name)
+const year = new Date().getFullYear()
+---
+
+<!-- Service-area business: no address, deliberately. -->
+<footer class="px-5 py-10" style="border-top: 1px solid var(--border);">
+  <div class="mx-auto max-w-3xl">
+    <p class="text-lg font-bold">{client.businessName}</p>
+
+    <p class="mt-2">
+      {
+        phone && tel ? (
+          <a href={`tel:${tel}`} class="font-semibold no-underline" style="color: var(--accent);">
+            {phone}
+          </a>
+        ) : (
+          <Todo label="phone number" />
+        )
+      }
+    </p>
+
+    {
+      areaNames.length > 0 && (
+        <p class="mt-2 text-sm" style="color: var(--muted);">
+          {sentenceCase(client.trade)} covering {joinNames(areaNames)}.
+        </p>
+      )
+    }
+
+    <p class="mt-4 text-sm" style="color: var(--muted);">
+      © {year} {client.businessName}
+    </p>
+  </div>
+</footer>

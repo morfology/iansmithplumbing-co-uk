@@ -1,0 +1,74 @@
+---
+import '../styles/global.css'
+import { client } from '../config/client'
+import { known } from '../lib/todo'
+import { schemaType, sentenceCase, joinNames } from '../lib/seo'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const areaNames = client.areas.map((a) => a.name)
+const nearby = areaNames[0]
+
+const defaultTitle = [
+  `${client.businessName} — Emergency ${sentenceCase(client.trade)} in ${client.baseTown}`,
+  nearby ? ` & ${nearby}` : '',
+].join('')
+
+const {
+  title = defaultTitle,
+  description = `${client.tagline}. ${sentenceCase(client.trade)} covering ${joinNames(areaNames)}.`,
+} = Astro.props
+
+// TODO values never reach the markup as real data.
+const phone = known(client.phoneE164)
+const email = known(client.email)
+
+// Service-area business — areaServed, deliberately no address.
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': schemaType(client.trade),
+  name: client.businessName,
+  description: client.tagline,
+  areaServed: [client.baseTown, ...areaNames].map((name) => ({ '@type': 'Place', name })),
+  ...(phone ? { telephone: phone } : {}),
+  ...(email ? { email } : {}),
+}
+---
+
+<!doctype html>
+<html lang="en-GB" style={`--accent: ${client.accent}; --accent-dark: ${client.accentDark};`}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? 'https://example.com')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="pb-24 md:pb-0">
+    <slot />
+    {
+      client.eventEndpoint && (
+        <script>
+          import { track } from '../lib/track'
+          document.addEventListener('click', (event) => {
+            const el = (event.target as HTMLElement).closest<HTMLElement>('[data-track-event]')
+            if (!el) return
+            const name = el.dataset.trackEvent
+            if (name !== 'call_click' && name !== 'whatsapp_click') return
+            track(name, el.dataset.trackSource ?? '')
+          })
+        </script>
+      )
+    }
+  </body>
+</html>

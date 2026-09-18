@@ -1,0 +1,31 @@
+---
+import { client } from '../config/client'
+
+const { areas, baseTown } = client
+---
+
+{
+  areas.length > 0 && (
+    <section class="px-5 py-10" style="background: var(--surface);">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="text-2xl font-bold">Areas covered</h2>
+        <p class="mt-2" style="color: var(--muted);">
+          Based in {baseTown}, covering the surrounding towns and villages.
+        </p>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {areas.map((area) => (
+            <li>
+              <a
+                href={`/areas/${area.slug}`}
+                class="tap rounded-lg border px-4 no-underline"
+                style="border-color: var(--border); color: var(--text);"
+              >
+                {area.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

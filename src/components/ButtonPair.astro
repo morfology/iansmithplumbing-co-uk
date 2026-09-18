@@ -1,0 +1,70 @@
+---
+import { waLink, telLink } from '../lib/wa'
+import type { Source } from '../lib/wa'
+import { client } from '../config/client'
+import { known } from '../lib/todo'
+import Todo from './Todo.astro'
+
+interface Props {
+  source: Source
+  /** Sticky-bar variant: tighter, no TODO badges (they're already on the hero). */
+  compact?: boolean
+}
+const { source, compact = false } = Astro.props
+
+const tel = telLink()
+const wa = waLink(source)
+const phone = known(client.phone)
+
+const base =
+  'tap flex-1 rounded-lg px-4 text-center font-semibold no-underline ' +
+  (compact ? 'text-base py-2' : 'text-lg py-3')
+const disabled = 'opacity-60 cursor-not-allowed'
+---
+
+<div class="flex w-full gap-3">
+  {
+    tel ? (
+      <a
+        href={tel}
+        class={base}
+        style="background: var(--accent); color: var(--accent-ink);"
+        data-track-event="call_click"
+        data-track-source={source}
+      >
+        Call now
+      </a>
+    ) : (
+      <span class={`${base} ${disabled}`} style="background: var(--accent); color: var(--accent-ink);" aria-disabled="true">
+        Call now
+      </span>
+    )
+  }
+  {
+    wa ? (
+      <a
+        href={wa}
+        class={base}
+        style="background: #075e54; color: #ffffff;"
+        data-track-event="whatsapp_click"
+        data-track-source={source}
+      >
+        WhatsApp me
+      </a>
+    ) : (
+      <span class={`${base} ${disabled}`} style="background: #075e54; color: #ffffff;" aria-disabled="true">
+        WhatsApp me
+      </span>
+    )
+  }
+</div>
+
+{
+  !compact && (!tel || !wa || !phone) && (
+    <p class="mt-2 flex flex-wrap gap-2">
+      {!phone && <Todo label="phone number (display)" />}
+      {!tel && <Todo label="phone number (tel: link)" />}
+      {!wa && <Todo label="whatsapp number" />}
+    </p>
+  )
+}

@@ -1,0 +1,33 @@
+---
+import { client } from '../config/client'
+import { orderedServices } from '../lib/seo'
+
+const services = orderedServices()
+const isEmergency = (s: string) => client.emergencyServices.includes(s)
+---
+
+<section class="px-5 py-10">
+  <div class="mx-auto max-w-3xl">
+    <h2 class="text-2xl font-bold">What I do</h2>
+    <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+      {
+        services.map((service) => (
+          <li
+            class="flex items-center justify-between gap-3 rounded-lg border px-4 py-3"
+            style="border-color: var(--border);"
+          >
+            <span>{service}</span>
+            {isEmergency(service) && (
+              <span
+                class="shrink-0 rounded px-2 py-0.5 text-xs font-bold uppercase"
+                style="background: var(--badge-bg); color: var(--badge-text);"
+              >
+                Emergency
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
