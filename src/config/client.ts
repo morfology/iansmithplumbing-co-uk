@@ -158,14 +158,15 @@ export const client: ClientConfig = {
   ],
 
   // Drawn from his own Checkatrade blurb — the Harrods line is his, and it is
-  // the most memorable thing on his profile.
+  // the most memorable thing on his profile. Kept plain: short sentences, the
+  // way he'd say it on the phone, nothing he hasn't said himself.
   about:
-    "I'm a sole trader based in Hook, covering a wide radius across Hampshire " +
-    'and the neighbouring counties. Before plumbing I spent years at Harrods in ' +
-    'Knightsbridge, which is where I learned what good service actually looks ' +
-    'like — being considerate, tidy and courteous is as much part of the job as ' +
-    "the plumbing itself. If you're in an emergency, ring me and I'll tell you " +
-    'what to do before I arrive.',
+    "I'm a sole trader based in Hook and I cover a fair bit of Hampshire and " +
+    'the counties next door. Before I went into plumbing I spent years at ' +
+    "Harrods in Knightsbridge. You learn to be polite there, to be considerate " +
+    "in people's homes and to leave things tidy, and I've kept that up. If " +
+    "you've got an emergency, give me a ring and I'll tell you what to do " +
+    'until I get there.',
   // No aboutImage in the demo on purpose: a stock portrait presented as the
   // owner reads as fake, which is worse than no photo. Clients supply their own.
 
@@ -173,15 +174,18 @@ export const client: ClientConfig = {
   // Postcodes on his reviews: RG27 Hook, RG21/RG23 Basingstoke, RG29 Odiham,
   // GU34 Alton, GU12 Aldershot. Fleet and Hartley Wintney are adjacent and
   // inside the same patch. TODO: confirm the outer edge with Ian.
+  // Blurbs lead each area page. Drive times are rough off-peak figures from
+  // Hook — TODO: have Ian sanity-check them. "Reviews from" only where a
+  // review postcode actually proves it.
   baseTown: 'Hook',
   areas: [
-    { slug: 'hook', name: 'Hook' },
-    { slug: 'basingstoke', name: 'Basingstoke' },
-    { slug: 'fleet', name: 'Fleet' },
-    { slug: 'odiham', name: 'Odiham' },
-    { slug: 'hartley-wintney', name: 'Hartley Wintney' },
-    { slug: 'alton', name: 'Alton' },
-    { slug: 'aldershot', name: 'Aldershot' },
+    { slug: 'hook', name: 'Hook', blurb: "Hook is where I'm based, so I'm usually only a few minutes away." },
+    { slug: 'basingstoke', name: 'Basingstoke', blurb: "Basingstoke is about 15 minutes from Hook. I've got Checkatrade reviews from customers in RG21 and RG23." },
+    { slug: 'fleet', name: 'Fleet', blurb: 'Fleet is about 15 minutes from Hook.' },
+    { slug: 'odiham', name: 'Odiham', blurb: "Odiham is about 10 minutes from Hook. I've got Checkatrade reviews from customers in RG29." },
+    { slug: 'hartley-wintney', name: 'Hartley Wintney', blurb: 'Hartley Wintney is about 10 minutes from Hook.' },
+    { slug: 'alton', name: 'Alton', blurb: "Alton is about 25 minutes from Hook. I've got Checkatrade reviews from customers in GU34." },
+    { slug: 'aldershot', name: 'Aldershot', blurb: "Aldershot is about 25 minutes from Hook. I've got Checkatrade reviews from customers in GU12." },
   ],
 
   // Condensed from the 21 skills on his Checkatrade profile. Everyday work

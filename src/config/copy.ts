@@ -105,7 +105,14 @@ export const copy = {
   insured: 'Fully insured',
 
   // call band — the last push before the footer
-  callBandHeading: `Need a ${client.trade} in ${client.baseTown}?`,
+  callBandHeading: (town: string) => `Need a ${client.trade} in ${town}?`,
+
+  // area pages — /areas/[slug]
+  areaTitle: (name: string) => `${sentenceCase(client.trade)} in ${name} — ${client.businessName}`,
+  areaDescription: (name: string) =>
+    `${sentenceCase(client.trade)} covering ${name}. ${client.tagline}.`,
+  areaHeading: (name: string) => `${sentenceCase(client.trade)} in ${name}`,
+  otherAreasHeading: v('Other areas I cover', 'Other areas we cover'),
 
   // footer
   footerCoverage: (areaList: string) => `${sentenceCase(client.trade)} covering ${areaList}.`,

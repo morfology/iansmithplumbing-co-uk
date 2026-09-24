@@ -2,14 +2,20 @@
 import { client } from '../config/client'
 import { copy } from '../config/copy'
 
-const { areas, baseTown } = client
+interface Props {
+  /** On an area page: that area's slug, left out of the list. */
+  current?: string
+}
+const { current } = Astro.props
+const { baseTown } = client
+const areas = client.areas.filter((a) => a.slug !== current)
 ---
 
 {
   areas.length > 0 && (
     <section class="px-5 py-10">
       <div class="mx-auto max-w-3xl">
-        <h2 class="text-2xl font-bold">{copy.areasHeading}</h2>
+        <h2 class="text-2xl font-bold">{current ? copy.otherAreasHeading : copy.areasHeading}</h2>
         <p class="mt-2" style="color: var(--muted);">
           {copy.areasIntro(baseTown)}
         </p>

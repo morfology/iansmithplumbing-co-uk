@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '../../layouts/Layout.astro'
+import Header from '../../components/Header.astro'
+import Hero from '../../components/Hero.astro'
+import Services from '../../components/Services.astro'
+import Reviews from '../../components/Reviews.astro'
+import Areas from '../../components/Areas.astro'
+import CallBand from '../../components/CallBand.astro'
+import Footer from '../../components/Footer.astro'
+import StickyBar from '../../components/StickyBar.astro'
+import { client, type Area } from '../../config/client'
+import { copy } from '../../config/copy'
+
+// One page per configured area. Near-duplicates by design: same structure,
+// town swapped, led by the area's own blurb — see SCAFFOLD, Routes.
+export const getStaticPaths = (() =>
+  client.areas.map((area) => ({ params: { slug: area.slug }, props: { area } }))) satisfies GetStaticPaths
+
+interface Props {
+  area: Area
+}
+const { area } = Astro.props
+---
+
+<Layout title={copy.areaTitle(area.name)} description={copy.areaDescription(area.name)}>
+  <Header />
+  <Hero eyebrow={client.businessName} heading={copy.areaHeading(area.name)} blurb={area.blurb} />
+  <Services />
+  <Reviews />
+  <Areas current={area.slug} />
+  <CallBand town={area.name} />
+  <Footer />
+  <StickyBar />
+</Layout>
