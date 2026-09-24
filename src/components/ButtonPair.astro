@@ -5,6 +5,7 @@ import { client } from '../config/client'
 import { copy } from '../config/copy'
 import { known } from '../lib/todo'
 import Todo from './Todo.astro'
+import Icon from './Icon.astro'
 
 interface Props {
   source: Source
@@ -18,7 +19,7 @@ const wa = waLink(source)
 const phone = known(client.phone)
 
 const base =
-  'tap flex-1 rounded-lg px-4 text-center font-semibold no-underline ' +
+  'tap flex-1 gap-2 rounded-lg px-3 text-center font-semibold whitespace-nowrap no-underline ' +
   (compact ? 'text-base py-2' : 'text-lg py-3')
 const disabled = 'opacity-60 cursor-not-allowed'
 ---
@@ -33,10 +34,12 @@ const disabled = 'opacity-60 cursor-not-allowed'
         data-track-event="call_click"
         data-track-source={source}
       >
+        <Icon name="phone" class={compact ? 'h-4 w-4 shrink-0' : 'h-5 w-5 shrink-0'} />
         {copy.ctaCall}
       </a>
     ) : (
       <span class={`${base} ${disabled}`} style="background: var(--call-bg); color: var(--call-ink);" aria-disabled="true">
+        <Icon name="phone" class={compact ? 'h-4 w-4 shrink-0' : 'h-5 w-5 shrink-0'} />
         {copy.ctaCall}
       </span>
     )
@@ -50,10 +53,12 @@ const disabled = 'opacity-60 cursor-not-allowed'
         data-track-event="whatsapp_click"
         data-track-source={source}
       >
+        <Icon name="whatsapp" class={compact ? 'h-5 w-5 shrink-0' : 'h-6 w-6 shrink-0'} />
         {copy.ctaWhatsApp}
       </a>
     ) : (
       <span class={`${base} ${disabled}`} style="background: var(--wa-bg); color: var(--wa-ink); border: 1px solid var(--wa-edge);" aria-disabled="true">
+        <Icon name="whatsapp" class={compact ? 'h-5 w-5 shrink-0' : 'h-6 w-6 shrink-0'} />
         {copy.ctaWhatsApp}
       </span>
     )

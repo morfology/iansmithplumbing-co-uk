@@ -238,7 +238,7 @@ Build a `waLink(source)` helper that encodes properly — spaces to `%20`, em-da
 
 ### Button colours
 
-Fixed, not from `accent`. **Call is red**, WhatsApp is WhatsApp's own green (`#25d366`). A customer identifies both before reading either. The green takes dark ink — white on it is 2:1 — and a darker edge, because the fill alone is too light to define the button against a white page. Both flip to brighter values in dark mode; see the comments in `global.css`.
+Fixed, not from `accent`. **Call is red**. **WhatsApp copies WhatsApp's own badge exactly**: `#25d366`, white logo, white text. A customer identifies both before reading either. White on that green is only 2:1, below the 4.5:1 text minimum. That was a deliberate choice: the logo and the colour carry the button, and it looks like WhatsApp rather than an imitation of it. It also has a darker edge, because the fill alone is too light to define the button against a white page. Both flip to brighter values in dark mode; see the comments in `global.css`.
 
 ---
 
