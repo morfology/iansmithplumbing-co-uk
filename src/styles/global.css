@@ -1,87 +1,65 @@
 @import "tailwindcss";
 
-/* Tokens defined on :root first. --accent / --accent-dark are deliberately NOT
-   declared here: they are set inline on <html> from client.ts, so a new client
-   is a config swap, not a Tailwind rebuild. No fallback here is the point — if
-   the inline declaration ever fails, the page breaks visibly rather than
-   quietly rendering the wrong brand colour. --accent-ink stays: it isn't
-   client-specific. */
+/* One theme, dark. The page is built from dark ground and full-width accent
+   bands; a light variant turned the base sections white between the bands and
+   read as stripes rather than a design, so there is no light/dark media
+   query. Every ratio below is measured against this ground.
+
+   --accent / --accent-dark are deliberately NOT declared here: they are set
+   inline on <html> from client.ts, so a rebrand is a config change, not a CSS
+   edit. No fallback is the point — if the inline declaration ever fails, the
+   page breaks visibly rather than quietly rendering the wrong brand colour.
+   --accent-ink stays: it isn't client-specific. */
 :root {
-  color-scheme: light;
+  /* Native controls and scrollbars render dark to match. */
+  color-scheme: dark;
 
   --accent-ink: #ffffff;
 
   /* The two CTAs are fixed colours, not the client accent. Red reads as urgent
-     in any brand. The WhatsApp button copies WhatsApp's own badge exactly —
-     #25d366, white logo and text — so a customer recognises it before reading
-     it. That is a deliberate trade: white on this green is only 2:1, below
-     the 4.5:1 text minimum; the logo and colour carry it instead. --wa-edge
-     outlines the green, which is too light to define its own edge on a white
-     page. */
-  --call-bg: #b91c1c;
+     in any brand: white on it is 4.8:1, and the fill stands 3.9:1 off the
+     page (3.6:1 off --surface), enough to read as a button. The WhatsApp
+     button copies WhatsApp's own badge exactly — #25d366, white logo and
+     text — so a customer recognises it before reading it. That is a
+     deliberate trade: white on this green is only 2:1, below the 4.5:1 text
+     minimum; the logo and colour carry it instead. The green stands 9.5:1 off
+     the dark ground, so its edge is simply the fill colour. */
+  --call-bg: #dc2626;
   --call-ink: #ffffff;
   --wa-bg: #25d366;
   --wa-ink: #ffffff;
-  --wa-edge: #12a150;
+  --wa-edge: #25d366;
 
-  --bg: #ffffff;
-  --surface: #f6f7f9;
-  --text: #111827;
-  --muted: #4b5563;
-  --border: #e5e7eb;
+  /* Text 16:1 on --bg and 14.6:1 on --surface; muted 7.5:1 and 6.8:1. */
+  --bg: #0d1117;
+  --surface: #161b22;
+  --text: #e6edf3;
+  --muted: #9ca3af;
+  --border: #2d333b;
 
   --todo-bg: #facc15;
   --todo-text: #422006;
 
-  /* Emergency badge: own token so text flips with the theme, unlike the
-     alert border it used to borrow. */
-  --badge-bg: #b91c1c;
-  --badge-text: #ffffff;
+  /* Emergency badge: a light red with dark ink, 5.8:1. A dark red fill would
+     sink into the page. */
+  --badge-bg: #f87171;
+  --badge-text: #450a0a;
 
-  /* Link text. The accent is a *background* colour (white sits on it), so it
-     can't be trusted as text on every ground — dark mode falls back to --text. */
-  --link: var(--accent);
+  /* Link text. The accent is a *background* colour — white sits on it — and
+     as text on this ground it manages only 3.1:1, so links use the text
+     colour and rely on the underline. */
+  --link: var(--text);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    --accent-ink: #ffffff;
-
-    /* #b91c1c only clears 2.7:1 against the dark surface, so the button stops
-       reading as a button. Brighter red: 4.8:1 with white ink, 3.6:1 against
-       the surface behind it. The green already stands off a dark ground, so it
-       needs no separate edge. */
-    --call-bg: #dc2626;
-    --call-ink: #ffffff;
-    --wa-bg: #25d366;
-    --wa-ink: #ffffff;
-    --wa-edge: #25d366;
-
-    --bg: #0d1117;
-    --surface: #161b22;
-    --text: #e6edf3;
-    --muted: #9ca3af;
-    --border: #2d333b;
-
-    --todo-bg: #facc15;
-    --todo-text: #422006;
-
-    --badge-bg: #f87171;
-    --badge-text: #450a0a;
-
-    --link: var(--text);
-  }
-}
-
-/* A band that stays dark in both themes — the header and hero. Colour
-   photography reads against it instead of washing into a white page, and it
-   matches the share card. The tokens are redefined rather than the colours
-   hardcoded, so everything inside adapts: crucially the CTA red, which only
-   clears 2.7:1 on a dark ground in its light-mode value and needs the brighter
-   one to still read as a button. Measured on #22262b: text 13.8:1, muted
-   7.2:1, link 7.3:1, call 3.2:1, WhatsApp 7.7:1. */
+/* The header-and-hero band. Deliberately a step *lighter* than the page
+   (#22262b against #0d1117), so the top of the page sits raised above the
+   sections below it and colour photography has a ground to sit on; it matches
+   the share card. The tokens are redefined rather than colours hardcoded, so
+   everything inside adapts without knowing where it is — the link gets a
+   brighter blue that holds up here. Measured on #22262b: text 13.9:1, muted
+   7.2:1, link 7.3:1, call fill 3.2:1 and WhatsApp fill 7.7:1 against the
+   band. --call-bg repeats the root value; it is kept so the band stays
+   self-contained if the root palette ever moves. */
 .on-dark {
   --bg: #191c20;
   --surface: #22262b;

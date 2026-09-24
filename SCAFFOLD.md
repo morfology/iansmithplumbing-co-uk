@@ -174,7 +174,7 @@ Build a `waLink(source)` helper that encodes properly — spaces to `%20`, em-da
 
 ### Button colours
 
-Fixed, not from `accent`. **Call is red**. **WhatsApp copies WhatsApp's own badge exactly**: `#25d366`, white logo, white text. A customer identifies both before reading either. White on that green is only 2:1, below the 4.5:1 text minimum. That was a deliberate choice: the logo and the colour carry the button, and it looks like WhatsApp rather than an imitation of it. It also has a darker edge, because the fill alone is too light to define the button against a white page. Both flip to brighter values in dark mode; see the comments in `global.css`.
+Fixed, not from `accent`. **Call is red**. **WhatsApp copies WhatsApp's own badge exactly**: `#25d366`, white logo, white text. A customer identifies both before reading either. White on that green is only 2:1, below the 4.5:1 text minimum. That was a deliberate choice: the logo and the colour carry the button, and it looks like WhatsApp rather than an imitation of it. The call red is `#dc2626`, bright enough to stand off the dark page; ratios are in the comments in `global.css`.
 
 ---
 
@@ -204,7 +204,7 @@ The page alternates full-width bands so the colour isn't confined to buttons:
 | About → Credentials | page background / `--surface` |
 | Call band | `.on-accent` |
 
-`.on-dark` stays dark in both colour schemes. Colour photography reads against it rather than washing into a white page, and it matches the OG card. `.on-accent` fills with the client's `accent` and turns text white, muted text 88% white, and cards and borders into white washes — so it tints with whatever accent a client has.
+The site has **one theme, dark** — no `prefers-color-scheme` branch. A light variant turned the base sections white between the accent bands and read as stripes rather than a design. `.on-dark` is deliberately a step *lighter* than the page, so the header and hero sit raised and colour photography has a ground to read against; it matches the OG card. `.on-accent` fills with the client's `accent` and turns text white, muted text 94% white, and cards and borders into white washes — so it tints with whatever accent a client has.
 
 Both work by **redefining the tokens**, not by hardcoding colours, so everything nested inside adapts without knowing what ground it is on. That matters most for the CTA pair: the light-mode red only clears 2.7:1 against dark and stops reading as a button, so `.on-dark` swaps in the brighter one. Every pair is measured — see the comment in `global.css`, and re-check it if the values move.
 
@@ -270,7 +270,7 @@ Accent via CSS variable so the swap is one config value:
 Set it from `client.accent` in the base layout's inline style, then reference `var(--accent)` in components. Avoids rebuilding the Tailwind config per client.
 
 **Also required:**
-- Dark mode via `prefers-color-scheme`, tokens defined on `:root` first
+- One dark theme, tokens defined on `:root`; no `prefers-color-scheme` branch
 - Minimum 48px tap targets on the CTAs
 - Body must never scroll horizontally
 
