@@ -18,7 +18,7 @@ const nearby = areaNames.find((name) => name !== client.baseTown)
 export const copy = {
   // head
   title: [
-    `${client.businessName} — Emergency ${sentenceCase(client.trade)} in ${client.baseTown}`,
+    `${client.businessName} — ${sentenceCase(client.trade)} in ${client.baseTown}`,
     nearby ? ` & ${nearby}` : '',
   ].join(''),
   description: `${client.tagline}. ${sentenceCase(client.trade)} covering ${joinNames(areaNames)}.`,
@@ -27,11 +27,15 @@ export const copy = {
   headerCallLabel: (phone: string) => `Call ${phone}`,
 
   // hero
-  heroHeading: `Emergency ${client.trade} in ${client.baseTown}`,
+  heroHeading: `${sentenceCase(client.trade)} in ${client.baseTown}`,
   /** "Gas Safe registered · Fully insured · covering <areas>" — each part drops when absent. */
   heroCredentials: (areaList: string) =>
     [
-      client.gasSafeNumber ? 'Gas Safe registered' : '',
+      client.gasSafe
+        ? client.gasSafe.who === 'self'
+          ? 'Gas Safe registered'
+          : 'Gas Safe engineer on gas work'
+        : '',
       client.insured ? 'Fully insured' : '',
       areaList ? `covering ${areaList}` : '',
     ]
@@ -57,8 +61,8 @@ export const copy = {
   // areas
   areasHeading: 'Areas covered',
   areasIntro: (town: string) =>
-    v(`Based in ${town}, covering the surrounding towns and villages.`,
-      `Based in ${town}, covering the surrounding towns and villages.`),
+    v(`I'm based in ${town} and cover the surrounding towns and villages.`,
+      `We're based in ${town} and cover the surrounding towns and villages.`),
 
   // rating badge
   rating: {
@@ -76,7 +80,20 @@ export const copy = {
 
   // credentials
   credentialsHeading: 'Credentials',
-  gasSafe: 'Gas Safe registered',
+  /**
+   * 'self' is the only case that may claim registration. For 'partner' the
+   * sentence has to make clear the registration is the engineer's, not the
+   * trader's — the register is statutory and the claim is checkable.
+   */
+  gasSafe: (who: 'self' | 'partner', engineer?: string) => {
+    if (who === 'self') return 'Gas Safe registered'
+    return engineer
+      ? `Gas work is carried out by ${engineer}, who is Gas Safe registered`
+      : v(
+          'Gas work is carried out by a Gas Safe registered engineer I work with',
+          'Gas work is carried out by a Gas Safe registered engineer we work with'
+        )
+  },
   gasSafeNumber: (number: string) => `— no. ${number}`,
   insured: 'Fully insured',
 

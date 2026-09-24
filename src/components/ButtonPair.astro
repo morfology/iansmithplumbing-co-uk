@@ -29,14 +29,14 @@ const disabled = 'opacity-60 cursor-not-allowed'
       <a
         href={tel}
         class={base}
-        style="background: var(--accent); color: var(--accent-ink);"
+        style="background: var(--call-bg); color: var(--call-ink);"
         data-track-event="call_click"
         data-track-source={source}
       >
         {copy.ctaCall}
       </a>
     ) : (
-      <span class={`${base} ${disabled}`} style="background: var(--accent); color: var(--accent-ink);" aria-disabled="true">
+      <span class={`${base} ${disabled}`} style="background: var(--call-bg); color: var(--call-ink);" aria-disabled="true">
         {copy.ctaCall}
       </span>
     )
@@ -46,14 +46,14 @@ const disabled = 'opacity-60 cursor-not-allowed'
       <a
         href={wa}
         class={base}
-        style="background: #075e54; color: #ffffff;"
+        style="background: var(--wa-bg); color: var(--wa-ink); border: 1px solid var(--wa-edge);"
         data-track-event="whatsapp_click"
         data-track-source={source}
       >
         {copy.ctaWhatsApp}
       </a>
     ) : (
-      <span class={`${base} ${disabled}`} style="background: #075e54; color: #ffffff;" aria-disabled="true">
+      <span class={`${base} ${disabled}`} style="background: var(--wa-bg); color: var(--wa-ink); border: 1px solid var(--wa-edge);" aria-disabled="true">
         {copy.ctaWhatsApp}
       </span>
     )

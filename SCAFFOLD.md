@@ -53,7 +53,11 @@ export interface ClientConfig {
   email?: string
 
   // credentials
-  gasSafeNumber?: string
+  gasSafe?: {                   // who holds the registration — see below
+    who: 'self' | 'partner'
+    number: string
+    engineer?: string
+  }
   insured: boolean
 
   // coverage
@@ -181,7 +185,7 @@ Copy is written. Take it as-is unless Ian objects.
 
 This does three jobs: it's genuinely useful, it builds trust before any sales copy, and it does the work the WhatsApp away message would do if the Business app isn't set up yet.
 
-**3 · Services** — plain list from `config.services`, emergency ones first
+**3 · Services** — plain list from `config.services`, rendered in config order. Everyday work leads and emergency jobs carry a badge: emergency callouts are a big part of the work, not the whole of it.
 
 **4 · Areas covered** — links to the generated area pages
 
@@ -220,6 +224,23 @@ Keep prefills **short**. A panicking customer won't complete a form. The away me
 Build a `waLink(source)` helper that encodes properly — spaces to `%20`, em-dash to `%E2%80%94`, colon to `%3A`.
 
 **Never WhatsApp alone.** Someone without it installed lands on a download page, which is a lost job.
+
+### Button colours
+
+Fixed, not from `accent`. **Call is red**, WhatsApp is WhatsApp's own green (`#25d366`). A customer identifies both before reading either. The green takes dark ink — white on it is 2:1 — and a darker edge, because the fill alone is too light to define the button against a white page. Both flip to brighter values in dark mode; see the comments in `global.css`.
+
+---
+
+## The Gas Safe rule
+
+A trade site is the one place a credential claim is checkable, and Gas Safe registration is statutory: only someone on the register may be described as Gas Safe registered.
+
+`gasSafe.who` encodes it:
+
+- `'self'` — the trader is on the register → *"Gas Safe registered — no. 123456"*
+- `'partner'` — gas work is subbed to a registered engineer → *"Gas work is carried out by {name}, who is Gas Safe registered — no. 123456"*
+
+The hero credential line shortens to *"Gas Safe engineer on gas work"* for `'partner'`, which is true without implying the trader holds the registration. Omit `gasSafe` entirely for a trader who does no gas work at all.
 
 ---
 
@@ -273,7 +294,7 @@ Someone with a leak, on 4G, standing in a puddle. **Under 2 seconds.**
 
 ## SEO
 
-- `<title>`: `{businessName} — Emergency Plumber in {baseTown} & {area}`
+- `<title>`: `{businessName} — Plumber in {baseTown} & {area}`. Not "Emergency Plumber" — the trade and the town are the identity, and emergency work is carried by the strip, the service badges and the tagline instead.
 - `LocalBusiness` / `Plumber` JSON-LD with `areaServed` from config, **no `address`** — he's a service-area business and the address is deliberately hidden
 - Business name **identical** to the Google Business Profile, character for character
 - Phone number identical everywhere — website, GBP, Facebook, Checkatrade. Inconsistent numbers across citations quietly damage local ranking
@@ -309,5 +330,5 @@ Cloudflare Pages, connected to the repo. Domain, DNS and hosting in one account.
 1. Ian's phone number
 2. Confirm service-area towns and radius
 3. Three or four short Checkatrade review quotes — profile is **9.89 from 95 reviews**, goes in his repo's `client.ts` as `rating` (the template ships fictional demo numbers)
-4. Does he do boilers/heating? Changes the services list and possibly the business name
+4. ~~Does he do boilers/heating?~~ Rads, bathrooms, underfloor heating, plus the standard repair work. **Gas is done by a qualified mate, not by Ian** — so `gasSafe.who` is `'partner'` and the site must never say "Gas Safe registered" of Ian himself. Still need the mate's name and registration number
 5. Photos — 20+ of completed work, van, tools
