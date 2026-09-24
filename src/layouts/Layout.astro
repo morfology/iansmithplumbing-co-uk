@@ -2,7 +2,6 @@
 import '../styles/global.css'
 import { client } from '../config/client'
 import { copy } from '../config/copy'
-import DemoBanner from '../components/DemoBanner.astro'
 import { known } from '../lib/todo'
 import { schemaType } from '../lib/seo'
 
@@ -63,7 +62,6 @@ const jsonLd: Record<string, unknown> = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="pb-24 md:pb-0">
-    <DemoBanner />
     <slot />
     {
       client.eventEndpoint && (

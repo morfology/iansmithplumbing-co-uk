@@ -56,12 +56,6 @@ export const copy = {
   ctaCall: 'Call now',
   ctaWhatsApp: v('WhatsApp me', 'WhatsApp us'),
 
-  // emergency strip
-  emergencyStrip: v(
-    "Water coming through the ceiling? Turn the stopcock off — usually under the kitchen sink — then ring me. I'll tell you what to do before I arrive.",
-    "Water coming through the ceiling? Turn the stopcock off — usually under the kitchen sink — then call us. We'll tell you what to do before we arrive."
-  ),
-
   // services
   servicesHeading: v('What I do', 'What we do'),
   emergencyBadge: 'Emergency',
@@ -110,12 +104,12 @@ export const copy = {
   gasSafeNumber: (number: string) => `— no. ${number}`,
   insured: 'Fully insured',
 
+  // call band — the last push before the footer
+  callBandHeading: `Need a ${client.trade} in ${client.baseTown}?`,
+
   // footer
   footerCoverage: (areaList: string) => `${sentenceCase(client.trade)} covering ${areaList}.`,
   copyright: (year: number) => `© ${year} ${client.businessName}`,
-
-  // demo banner
-  demoNotice: 'Demo site — placeholder content, not a live business page',
 
   // TODO placeholders — labels for values this client hasn't given us yet
   todo: {

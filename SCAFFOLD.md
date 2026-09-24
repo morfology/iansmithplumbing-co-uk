@@ -59,6 +59,7 @@ export interface ClientConfig {
     engineer?: string
   }
   insured: boolean
+  credentials?: Credential[]    // { text, icon? } — anything else worth stating plainly
 
   // who you're calling
   since?: number                // year the business started
@@ -70,7 +71,7 @@ export interface ClientConfig {
   areas: Area[]
 
   // services — one list, rendered in config order
-  services: Service[]           // { name, emergency?, blurb? }
+  services: Service[]           // { name, emergency?, blurb?, icon? }
 
   // social proof
   reviews: Review[]
@@ -137,11 +138,12 @@ export const client: ClientConfig = {
 
   accent: '#1f4e79',
   accentDark: '#153854',
-  isDemo: true,
 }
 ```
 
-**Keep the demo obviously fictional.** Invented business name, invented towns, and phone numbers from Ofcom's reserved `07700 900xxx` drama range so no real person ever gets called. Add `isDemo?: boolean` to the interface and render a small persistent banner — *"Demo site — example business, not a real trader"* — whenever it's true. Client configs omit it and the banner disappears.
+**Keep the demo data safe.** Phone numbers come from Ofcom's reserved `07700 900xxx` drama range so no real person ever gets called.
+
+**No demo banner.** There used to be an `isDemo` flag that rendered a *"Demo site"* strip across the top. It's gone: the page is shown to prospects as it would look live, and a banner across the top undercuts exactly that.
 
 ### Per-client values
 
@@ -184,16 +186,13 @@ Copy is written. Take it as-is unless Ian objects.
 
 - Eyebrow: `{Trade} in {baseTown}` — the trade-and-town string still leads, just above the H1
 - H1: `{headline}` — a promise in the client's own voice, not the SEO string. Ian's is *Reliable, polite, and tidy*, taken from his Checkatrade blurb. **Local SEO is the area pages' job**, and the `<title>` keeps the town regardless. Clients without a headline fall back to the generated `{Trade} in {baseTown}`
-- Sub: *Gas Safe registered · fully insured · covering {areas joined}*
+- Sub: *fully insured · covering {areas joined}* — each part drops when absent; a Gas Safe claim leads only when `gasSafe` is set
 - **The button pair** (see below)
 - Strap under the buttons: *Can't answer? Message me — I reply between jobs.*
 
-**2 · Emergency strip** — visually distinct, directly under the hero
-> **Water coming through the ceiling?** Turn the stopcock off — usually under the kitchen sink — then call. Don't wait for a quote.
+**2 · Services** — a full-width accent band (see *Colour bands*). Cards from `config.services`, rendered in config order, each with an optional icon on a white tile. Everyday work leads and emergency jobs carry a badge: emergency callouts are a big part of the work, not the whole of it. Each carries an optional one-line `blurb` — a bare name doesn't tell someone whether their job is on the list.
 
-This does three jobs: it's genuinely useful, it builds trust before any sales copy, and it does the work the WhatsApp away message would do if the Business app isn't set up yet.
-
-**3 · Services** — plain list from `config.services`, rendered in config order. Everyday work leads and emergency jobs carry a badge: emergency callouts are a big part of the work, not the whole of it. Each carries an optional one-line `blurb` — a bare name doesn't tell someone whether their job is on the list.
+*There was an emergency strip here ("Water coming through the ceiling?…"). It was dropped: it read as an alarm banner rather than help. The same advice lives in Ian's About text.*
 
 **3a · About** — who you're actually calling. For a sole trader this is the highest-value section on the page after the buttons: two or three sentences in his own voice, the year he started, and a photograph of him. Drops entirely when `about` is unset.
 
@@ -201,9 +200,11 @@ This does three jobs: it's genuinely useful, it builds trust before any sales co
 
 **5 · Reviews** — three or four, short, with source
 
-**6 · Credentials** — Gas Safe number, insured. Years trading lives in the About section instead, where it sits next to the face rather than in a dry list
+**6 · Credentials** — insured, then `config.credentials`, as a two-column list with an icon per line. Gas Safe leads only when `gasSafe` is set. Years trading lives in the About section instead, where it sits next to the face rather than in a dry list
 
-**7 · Footer** — phone, areas, business name. No address (service-area business).
+**7 · Call band** — a full-width accent band: *Need a {trade} in {baseTown}?*, the away strap, and the button pair. Someone who reads to the bottom has decided; don't make them scroll back up.
+
+**8 · Footer** — phone, areas, business name. No address (service-area business).
 
 **Sticky bottom bar on mobile** — the button pair, always visible. Don't make someone hunt for a number while a ceiling drips.
 
@@ -247,7 +248,7 @@ Fixed, not from `accent`. **Call is red**, WhatsApp is WhatsApp's own green (`#2
 
 ### The logo
 
-`logo` renders as a **40px rounded tile beside the business name**, not as a lockup replacing it. Two reasons, both from the asset: it is opaque (no alpha, so it cannot sit on a white header without a grey box), and its own wordmark is unreadable below about 150px. As a tile the baked-in background reads as deliberate, and the name stays as live, selectable, translatable text.
+`logo` renders as a **64px rounded tile (80px from `sm`) beside the business name**, not as a lockup replacing it. Two reasons, both from the asset: it is opaque (no alpha, so it cannot sit on a white header without a grey box), and its own wordmark is unreadable below about 150px. As a tile the baked-in background reads as deliberate, and the name stays as live, selectable, translatable text.
 
 Swap to a proper lockup only when a transparent SVG or PNG arrives — a Google Business Profile export is a downscaled re-encode, never the original.
 
@@ -255,11 +256,29 @@ The hero ships with a stock placeholder. **The About portrait deliberately does 
 
 ---
 
-## The dark band
+## Colour bands
 
-The header and hero carry `.on-dark`, which stays dark in both colour schemes. Colour photography reads against it rather than washing into a white page, and it matches the OG card.
+The page alternates full-width bands so the colour isn't confined to buttons:
 
-It works by **redefining the tokens**, not by hardcoding colours, so everything nested inside adapts without knowing it is on a dark ground. That matters most for the CTA pair: the light-mode red only clears 2.7:1 against dark and stops reading as a button, so `.on-dark` swaps in the brighter one. Every pair is measured — see the comment in `global.css`, and re-check it if the values move.
+| Band | Class |
+|---|---|
+| Header | `.on-accent` |
+| Hero | `.on-dark` |
+| Services | `.on-accent` |
+| About → Credentials | page background / `--surface` |
+| Call band | `.on-accent` |
+
+`.on-dark` stays dark in both colour schemes. Colour photography reads against it rather than washing into a white page, and it matches the OG card. `.on-accent` fills with the client's `accent` and turns text white, muted text 88% white, and cards and borders into white washes — so it tints with whatever accent a client has.
+
+Both work by **redefining the tokens**, not by hardcoding colours, so everything nested inside adapts without knowing what ground it is on. That matters most for the CTA pair: the light-mode red only clears 2.7:1 against dark and stops reading as a button, so `.on-dark` swaps in the brighter one. Every pair is measured — see the comment in `global.css`, and re-check it if the values move.
+
+---
+
+## Icons
+
+Font Awesome Free (solid), from `@fortawesome/free-solid-svg-icons`, rendered as inline SVG at build time by `Icon.astro` — no icon font, no runtime JS. `client.ts` names icons by key (`icon: 'bath'`) so the config stays plain data; the keys live in `src/lib/icons.ts`, which is the one place to add another FA icon. Icons are decorative (`aria-hidden`) — the text beside each one already says what it means.
+
+FA Free icons are CC BY 4.0. Inlining drops the attribution comments the package files carry, so a strict reading wants a credit somewhere (footer or page source).
 
 ---
 
@@ -267,7 +286,7 @@ It works by **redefining the tokens**, not by hardcoding colours, so everything 
 
 Take it from the logo, then check it before using it. Ian's droplet is `#1789eb`, which is only **3.6:1 on white** — fine as a large fill, fails as link text. The config carries the darkened `#0a63b2` (6.1:1) instead.
 
-`accent` currently drives `--link` and the hero eyebrow only; the CTA pair is fixed red/green by design. **`accentDark` drives nothing at all** — either wire it to a link hover state or drop the field.
+`accent` drives `--link`, the hero eyebrow, and the fill of every `.on-accent` band — so it **must carry white text at 4.5:1**. The CTA pair is fixed red/green by design. **`accentDark` drives nothing at all** — either wire it to a link hover state or drop the field.
 
 ---
 
@@ -358,7 +377,6 @@ Cloudflare Pages, connected to the repo. Domain, DNS and hosting in one account.
 - [ ] **`git clone && npm install && npm run dev` produces a complete, good-looking demo site with zero edits**
 - [ ] Onboarding a new client = edit `client.ts`, replace photos, deploy
 - [ ] No client name appears outside `client.ts` and `/public`
-- [ ] The demo banner shows when `isDemo: true` and vanishes when omitted
 - [ ] Lighthouse mobile ≥ 95 across the board
 - [ ] Button pair works on a real phone — call dials, WhatsApp opens with the prefill
 - [ ] Renders correctly with `reviews: []` and `gasSafeNumber: undefined` — not every client will have them
@@ -372,7 +390,7 @@ Confirmed from his Checkatrade profile (`/trades/iansmithplumbing`): **sole trad
 Blocking:
 
 1. **Phone and WhatsApp number.** The config carries an Ofcom drama number (`07700 900123`) that never connects
-2. **The gas engineer's name and registration number.** `gasSafe.number` is `'TODO'` and renders as a visible badge. Is the mate happy to be named?
+2. **Gas work.** `gasSafe` is omitted for now, so the site says nothing about gas. If it comes back: the engineer's name and registration number, and whether the mate is happy to be named
 3. **Is he actually insured?** `insured: true` is currently an assumption. Checkatrade lists "Insurance Work Undertaken", which means he takes insurance-claim work — it is *not* a statement that he carries public liability cover
 
 Worth having:

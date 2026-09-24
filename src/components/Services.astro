@@ -7,17 +7,17 @@ import Icon from './Icon.astro'
 const { services } = client
 ---
 
-<section class="px-5 py-10">
+<section class="on-accent px-5 py-12">
   <div class="mx-auto max-w-3xl">
     <h2 class="text-2xl font-bold">{copy.servicesHeading}</h2>
     <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
       {
         services.map((service) => (
-          <li class="flex gap-3 rounded-lg border px-4 py-3" style="border-color: var(--border);">
+          <li class="flex gap-3 rounded-lg border px-4 py-3" style="border-color: var(--border); background: var(--surface);">
             {service.icon && (
               <span
                 class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
-                style="background: var(--accent); color: var(--accent-ink);"
+                style="background: var(--accent-ink); color: var(--accent);"
               >
                 <Icon name={service.icon} class="h-5 w-5" />
               </span>

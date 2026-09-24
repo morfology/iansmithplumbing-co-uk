@@ -111,9 +111,6 @@ export interface ClientConfig {
 
   // tracking
   eventEndpoint?: string        // n8n webhook for click events
-
-  // demo
-  isDemo?: boolean              // true in the template, omitted in client repos
 }
 
 // src/config/client.ts — DEMO DATA. Overwrite in each client repo.
@@ -224,5 +221,4 @@ export const client: ClientConfig = {
   // only 3.6:1 on white, which fails as link text. This clears 6.1:1.
   accent: '#0a63b2',
   accentDark: '#07477f',
-  isDemo: true,
 }

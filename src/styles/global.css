@@ -29,10 +29,6 @@
   --muted: #4b5563;
   --border: #e5e7eb;
 
-  --alert-bg: #fef2f2;
-  --alert-border: #b91c1c;
-  --alert-text: #7f1d1d;
-
   --todo-bg: #facc15;
   --todo-text: #422006;
 
@@ -40,9 +36,6 @@
      alert border it used to borrow. */
   --badge-bg: #b91c1c;
   --badge-text: #ffffff;
-
-  --demo-bg: #1e293b;
-  --demo-text: #e2e8f0;
 
   /* Link text. The accent is a *background* colour (white sits on it), so it
      can't be trusted as text on every ground — dark mode falls back to --text. */
@@ -71,18 +64,11 @@
     --muted: #9ca3af;
     --border: #2d333b;
 
-    --alert-bg: #2a1113;
-    --alert-border: #f87171;
-    --alert-text: #fecaca;
-
     --todo-bg: #facc15;
     --todo-text: #422006;
 
     --badge-bg: #f87171;
     --badge-text: #450a0a;
-
-    --demo-bg: #1e293b;
-    --demo-text: #e2e8f0;
 
     --link: var(--text);
   }
@@ -109,12 +95,17 @@
   color: var(--text);
 }
 
-/* The brand band at the very top — the client's colour, not a neutral. Used
-   by the header only: the accent is picked to carry white text (client.ts
-   checks it clears 4.5:1), so text and link both go white here. */
+/* Full-width bands in the client's colour — header, services, call band.
+   The accent is picked to carry white text (client.ts checks it clears
+   4.5:1), so everything inside goes white or translucent white. Muted text at
+   88% still clears 4.5:1 on the demo blue; cards and borders are white washes
+   so they tint with whatever accent the client has. */
 .on-accent {
   --text: #ffffff;
   --link: #ffffff;
+  --muted: rgb(255 255 255 / 0.88);
+  --border: rgb(255 255 255 / 0.25);
+  --surface: rgb(255 255 255 / 0.08);
 
   background: var(--accent);
   color: var(--text);
