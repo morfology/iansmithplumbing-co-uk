@@ -1,5 +1,6 @@
 import { client } from './client'
 import { joinNames, sentenceCase } from '../lib/seo'
+import { formatYearMonth } from '../lib/date'
 
 /**
  * Every user-facing string lives here. Components hold no literal copy, so a
@@ -74,10 +75,12 @@ export const copy = {
   // rating badge
   rating: {
     outOf: (outOf: number) => `/ ${outOf}`,
-    summary: (count: number, source: string) => `${count} reviews on ${source}`,
+    /** Dated on purpose — "95 reviews on Checkatrade, September 2026". */
+    summary: (count: number, source: string, asOf: string) =>
+      `${count} reviews on ${source}, ${formatYearMonth(asOf)}`,
     /** Read aloud in place of the badge's split-up numbers. */
-    label: (score: number, outOf: number, count: number, source: string) =>
-      `Rated ${score} out of ${outOf} from ${count} reviews on ${source}`,
+    label: (score: number, outOf: number, count: number, source: string, asOf: string) =>
+      `Rated ${score} out of ${outOf} from ${count} reviews on ${source}, as of ${formatYearMonth(asOf)}`,
   },
 
   // reviews

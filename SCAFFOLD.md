@@ -75,7 +75,7 @@ export interface ClientConfig {
 
   // social proof
   reviews: Review[]
-  rating?: Rating               // score, count, platform and profile link
+  rating?: Rating               // score, count, platform, profile link, asOf (year-month read)
 
   // look
   headline?: string             // the H1; omitted = "<Trade> in <baseTown>"
@@ -326,7 +326,7 @@ Confirmed from his Checkatrade profile (`/trades/iansmithplumbing`): **sole trad
 Blocking:
 
 1. **Gas work.** `gasSafe` is omitted for now, so the site says nothing about gas. If it comes back: the engineer's name and registration number, and whether the mate is happy to be named
-2. **Is he actually insured?** `insured: true` is currently an assumption. Checkatrade lists "Insurance Work Undertaken", which means he takes insurance-claim work — it is *not* a statement that he carries public liability cover
+2. **Is he actually insured?** `insured` is `false` until he shows a public liability certificate, so the site makes no insurance claim. Checkatrade lists "Insurance Work Undertaken", which means he takes insurance-claim work — it is *not* a statement that he carries public liability cover
 
 Worth having:
 

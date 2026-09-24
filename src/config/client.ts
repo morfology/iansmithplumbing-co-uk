@@ -17,6 +17,9 @@ export interface Rating {
   outOf: number    // 10 on Checkatrade, 5 on Google
   count: number    // 95
   url?: string     // public profile — doubles as the "read more reviews" link
+  /** Year-month the figures were read, '2026-09'. Required: the score drifts,
+      and an undated number turns into a false claim. Re-read and bump it. */
+  asOf: string
 }
 
 export interface Area {
@@ -147,9 +150,11 @@ export const client: ClientConfig = {
 
   // No gasSafe: he can take on gas jobs through a registered engineer, but the
   // site doesn't advertise gas work for now.
-  // TODO: confirm. Checkatrade lists "Insurance Work Undertaken", which means he
-  // works on insurance claims — it is not a statement that he carries cover.
-  insured: true,
+  // Pending confirmation of public liability cover — don't claim what we can't
+  // evidence. Checkatrade's "Insurance Work Undertaken" means he takes
+  // insurance-claim jobs; it is not a statement that he carries cover.
+  // TODO: flip to true once he's shown the certificate.
+  insured: false,
   credentials: [
     { text: 'City & Guilds Level 2 qualified', icon: 'qualified' },
     { text: 'Checkatrade vetted — 12 checks passed', icon: 'vetted' },
@@ -220,6 +225,7 @@ export const client: ClientConfig = {
     outOf: 10,
     count: 95,
     url: 'https://www.checkatrade.com/trades/iansmithplumbing',
+    asOf: '2026-09',   // year-month the figures were read
   },
 
   // Sampled from the logo's droplet (#1789eb) and darkened: the raw blue is

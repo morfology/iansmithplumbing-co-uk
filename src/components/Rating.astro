@@ -15,7 +15,7 @@ const { compact = false } = Astro.props
 
 const rating = client.rating
 const label = rating
-  ? copy.rating.label(rating.score, rating.outOf, rating.count, rating.source)
+  ? copy.rating.label(rating.score, rating.outOf, rating.count, rating.source, rating.asOf)
   : ''
 
 // A link when there's a profile to send people to, plain text when there isn't.
@@ -30,13 +30,15 @@ const linkProps = rating?.url
     <Tag
       {...linkProps}
       class:list={[
-        'inline-flex items-center gap-2.5 rounded-full border no-underline',
-        compact ? 'px-3 py-1.5' : 'px-4 py-2',
+        'inline-flex items-center gap-2.5 border no-underline',
+        // the dated summary can wrap in the narrow hero column — a pill with
+        // two lines of text looks broken, a rounded box doesn't
+        compact ? 'rounded-2xl px-3 py-1.5' : 'rounded-full px-4 py-2',
       ]}
       style="border-color: var(--border); background: var(--bg);"
       aria-label={label}
     >
-      <span aria-hidden="true" class="flex items-baseline gap-0.5">
+      <span aria-hidden="true" class="flex shrink-0 items-baseline gap-0.5 whitespace-nowrap">
         <span class={compact ? 'text-lg font-extrabold' : 'text-2xl font-extrabold'}>
           {rating.score}
         </span>
@@ -49,7 +51,7 @@ const linkProps = rating?.url
         class={compact ? 'text-sm' : 'text-base'}
         style="color: var(--muted);"
       >
-        {copy.rating.summary(rating.count, rating.source)}
+        <span class="mr-1">·</span>{copy.rating.summary(rating.count, rating.source, rating.asOf)}
       </span>
     </Tag>
   )
