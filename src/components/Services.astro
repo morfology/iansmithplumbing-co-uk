@@ -12,18 +12,22 @@ const { services } = client
     <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
       {
         services.map((service) => (
-          <li
-            class="flex items-center justify-between gap-3 rounded-lg border px-4 py-3"
-            style="border-color: var(--border);"
-          >
-            <span>{service.name}</span>
-            {service.emergency && (
-              <span
-                class="shrink-0 rounded px-2 py-0.5 text-xs font-bold uppercase"
-                style="background: var(--badge-bg); color: var(--badge-text);"
-              >
-                {copy.emergencyBadge}
-              </span>
+          <li class="rounded-lg border px-4 py-3" style="border-color: var(--border);">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-semibold">{service.name}</span>
+              {service.emergency && (
+                <span
+                  class="shrink-0 rounded px-2 py-0.5 text-xs font-bold uppercase"
+                  style="background: var(--badge-bg); color: var(--badge-text);"
+                >
+                  {copy.emergencyBadge}
+                </span>
+              )}
+            </div>
+            {service.blurb && (
+              <p class="mt-1 text-sm" style="color: var(--muted);">
+                {service.blurb}
+              </p>
             )}
           </li>
         ))

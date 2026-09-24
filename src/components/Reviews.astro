@@ -9,8 +9,10 @@ const reviewLink = known(rating?.url)
 ---
 
 {
-  reviews.length > 0 && (
-    <section class="px-5 py-10">
+  /* A verified score with a link to the profile stands on its own — the section
+     no longer needs quotes to justify itself. */
+  (reviews.length > 0 || rating) && (
+    <section class="px-5 py-10" style="background: var(--surface);">
       <div class="mx-auto max-w-3xl">
         <h2 class="text-2xl font-bold">{copy.reviewsHeading}</h2>
         {rating && (
@@ -18,6 +20,7 @@ const reviewLink = known(rating?.url)
             <Rating />
           </p>
         )}
+        {reviews.length > 0 && (
         <ul class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {reviews.map((review, i) => (
             <li
@@ -35,6 +38,7 @@ const reviewLink = known(rating?.url)
             </li>
           ))}
         </ul>
+        )}
         {reviewLink && rating && (
           <p class="mt-4">
             <a

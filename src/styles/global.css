@@ -88,6 +88,27 @@
   }
 }
 
+/* A band that stays dark in both themes — the header and hero. Colour
+   photography reads against it instead of washing into a white page, and it
+   matches the share card. The tokens are redefined rather than the colours
+   hardcoded, so everything inside adapts: crucially the CTA red, which only
+   clears 2.7:1 on a dark ground in its light-mode value and needs the brighter
+   one to still read as a button. Measured on #22262b: text 13.8:1, muted
+   7.2:1, link 7.3:1, call 3.2:1, WhatsApp 7.7:1. */
+.on-dark {
+  --bg: #191c20;
+  --surface: #22262b;
+  --text: #f2f5f8;
+  --muted: #aab3bd;
+  --border: #3a4048;
+  --call-bg: #dc2626;
+  --call-ink: #ffffff;
+  --link: #5fbdf5;
+
+  background: var(--surface);
+  color: var(--text);
+}
+
 html {
   background: var(--bg);
   color: var(--text);

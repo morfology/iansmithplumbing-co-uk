@@ -3,24 +3,19 @@ import { Image } from 'astro:assets'
 import { client } from '../config/client'
 import { copy } from '../config/copy'
 import { joinNames } from '../lib/seo'
+import { resolvePhoto } from '../lib/photo'
 import ButtonPair from './ButtonPair.astro'
 import Rating from './Rating.astro'
 
 const areaList = joinNames(client.areas.map((a) => a.name))
-
-// Photos are referenced by filename in client.ts so the config stays plain data.
-// The glob is eager and build-time — Astro still tree-shakes to the one file used.
-const assets = import.meta.glob<{ default: ImageMetadata }>('../assets/*.{jpg,jpeg,png,webp,avif}', {
-  eager: true,
-})
-const hero = client.heroImage ? assets[`../assets/${client.heroImage.file}`]?.default : undefined
+const hero = resolvePhoto(client.heroImage)
 ---
 
-<section class="px-5 pt-6 pb-8" style="background: var(--surface);">
+<section class="on-dark px-5 pt-6 pb-8">
   <div class="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2 sm:items-center sm:gap-8">
     <div>
-      <p class="text-sm font-semibold tracking-wide uppercase" style="color: var(--muted);">
-        {client.businessName}
+      <p class="text-sm font-semibold tracking-wide uppercase" style="color: var(--link);">
+        {copy.heroEyebrow}
       </p>
       <h1 class="mt-1 text-3xl leading-tight font-extrabold sm:text-4xl">
         {copy.heroHeading}

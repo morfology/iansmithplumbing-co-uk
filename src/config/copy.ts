@@ -27,7 +27,13 @@ export const copy = {
   headerCallLabel: (phone: string) => `Call ${phone}`,
 
   // hero
-  heroHeading: `${sentenceCase(client.trade)} in ${client.baseTown}`,
+  /** Trade and town still lead the hero, just above the H1 rather than as it.
+      Without a headline the H1 takes that string back and this falls back to
+      the business name, so nothing is said twice. */
+  heroEyebrow: client.headline
+    ? `${sentenceCase(client.trade)} in ${client.baseTown}`
+    : client.businessName,
+  heroHeading: client.headline ?? `${sentenceCase(client.trade)} in ${client.baseTown}`,
   /** "Gas Safe registered · Fully insured · covering <areas>" — each part drops when absent. */
   heroCredentials: (areaList: string) =>
     [
@@ -51,8 +57,10 @@ export const copy = {
   ctaWhatsApp: v('WhatsApp me', 'WhatsApp us'),
 
   // emergency strip
-  emergencyStrip:
-    "Water coming through the ceiling? Turn the stopcock off — usually under the kitchen sink — then call. Don't wait for a quote.",
+  emergencyStrip: v(
+    "Water coming through the ceiling? Turn the stopcock off — usually under the kitchen sink — then ring me. I'll tell you what to do before I arrive.",
+    "Water coming through the ceiling? Turn the stopcock off — usually under the kitchen sink — then call us. We'll tell you what to do before we arrive."
+  ),
 
   // services
   servicesHeading: v('What I do', 'What we do'),
@@ -63,6 +71,11 @@ export const copy = {
   areasIntro: (town: string) =>
     v(`I'm based in ${town} and cover the surrounding towns and villages.`,
       `We're based in ${town} and cover the surrounding towns and villages.`),
+
+  // about
+  aboutHeading: v(`About ${client.owner}`, `About ${client.businessName}`),
+  /** Deliberately not "Plumber in X since Y" — that repeats the H1 verbatim. */
+  aboutSince: (since: number) => `Working in ${client.baseTown} since ${since}`,
 
   // rating badge
   rating: {
@@ -102,7 +115,7 @@ export const copy = {
   copyright: (year: number) => `© ${year} ${client.businessName}`,
 
   // demo banner
-  demoNotice: 'Demo site — example business, not a real trader',
+  demoNotice: 'Demo site — placeholder content, not a live business page',
 
   // TODO placeholders — labels for values this client hasn't given us yet
   todo: {

@@ -1,9 +1,17 @@
 ---
+import { Image } from 'astro:assets'
 import { client } from '../config/client'
 import { copy } from '../config/copy'
 import { telLink } from '../lib/wa'
 import { known } from '../lib/todo'
+import { resolvePhoto } from '../lib/photo'
 import Todo from './Todo.astro'
+
+// The logo is square and opaque, so it goes in as a tile rather than a
+// lockup — its own background then reads as deliberate instead of as a
+// grey box someone forgot to cut out. Its wordmark is illegible at this
+// size, which is why the business name stays as live text beside it.
+const logo = resolvePhoto(client.logo)
 
 // Deliberately no nav: one page, one job. The header exists to anchor the page
 // with the business name and to put the number somewhere other than a button.
@@ -11,9 +19,23 @@ const phone = known(client.phone)
 const tel = telLink()
 ---
 
-<header class="px-5 py-2" style="border-bottom: 1px solid var(--border);">
+<header class="on-dark px-5 py-2" style="border-bottom: 1px solid var(--border);">
   <div class="mx-auto flex max-w-3xl items-center justify-between gap-3">
-    <p class="font-bold">{client.businessName}</p>
+    <div class="flex min-w-0 items-center gap-2.5">
+      {
+        logo && client.logo && (
+          <Image
+            src={logo}
+            alt=""
+            widths={[40, 80]}
+            sizes="40px"
+            loading="eager"
+            class="h-10 w-10 shrink-0 rounded-lg object-cover"
+          />
+        )
+      }
+      <p class="truncate font-bold">{client.businessName}</p>
+    </div>
     {
       tel && phone ? (
         <a

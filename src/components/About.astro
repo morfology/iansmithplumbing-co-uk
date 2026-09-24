@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets'
+import { client } from '../config/client'
+import { copy } from '../config/copy'
+import { resolvePhoto } from '../lib/photo'
+
+// No bio, no section — a half-written About is worse than none.
+const { about, since, aboutImage } = client
+const portrait = resolvePhoto(aboutImage)
+---
+
+{
+  about && (
+    <section class="px-5 py-10" style="background: var(--surface);">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="text-2xl font-bold">{copy.aboutHeading}</h2>
+        {since && (
+          <p class="mt-1 text-sm font-semibold tracking-wide uppercase" style="color: var(--muted);">
+            {copy.aboutSince(since)}
+          </p>
+        )}
+
+        <div class="mt-4 gap-6 sm:flex sm:items-start">
+          {portrait && aboutImage && (
+            <Image
+              src={portrait}
+              alt={aboutImage.alt}
+              widths={[240, 480]}
+              sizes="(min-width: 640px) 200px, 60vw"
+              loading="lazy"
+              class="mb-4 aspect-square w-40 shrink-0 rounded-xl object-cover sm:mb-0 sm:w-50"
+              style="border: 1px solid var(--border);"
+            />
+          )}
+          <p class="text-lg">{about}</p>
+        </div>
+      </div>
+    </section>
+  )
+}

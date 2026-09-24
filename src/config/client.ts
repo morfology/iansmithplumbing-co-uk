@@ -4,6 +4,11 @@ export interface Review {
   source?: string  // "Checkatrade"
 }
 
+export interface Photo {
+  file: string   // a file in src/assets/ — swap the file, keep the key
+  alt: string
+}
+
 export interface Rating {
   source: string   // 'Checkatrade' — rendered verbatim, so match the platform's own name
   score: number    // 9.89 — write it exactly as the profile shows it
@@ -21,6 +26,9 @@ export interface Area {
 export interface Service {
   name: string
   emergency?: boolean
+  /** One line on what the job actually covers. A bare name doesn't tell
+      someone whether their job is on the list. */
+  blurb?: string
 }
 
 export interface ClientConfig {
@@ -31,12 +39,18 @@ export interface ClientConfig {
   owner: string
   /** First person singular or plural — drives every voice-dependent string in copy.ts. */
   voice: 'i' | 'we'
+  /** The H1: a promise in the client's own voice. Omitted = the generated
+      "<Trade> in <baseTown>", which is the safer default for a new client. */
+  headline?: string
 
   // site
   siteUrl: string               // 'https://tradedemo.mpconsult.uk' — no trailing slash
   ogImage?: string              // '/og.jpg' — 1200×630; omitted = no og:image tags
-  /** Hero photograph: a file in src/assets/, plus its alt text. Omitted = text-only hero. */
-  heroImage?: { file: string; alt: string }
+  /** Hero photograph. Omitted = text-only hero. */
+  heroImage?: Photo
+  /** Business logo, shown as a tile beside the name in the header.
+      Omitted = the header runs as text, which is not a downgrade. */
+  logo?: Photo
 
   // contact
   phone: string                 // display: "07700 900123"
@@ -59,6 +73,17 @@ export interface ClientConfig {
     engineer?: string // the partner's name, when who is 'partner'
   }
   insured: boolean
+  /** Anything else worth stating plainly — qualifications, vetting, terms. */
+  credentials?: string[]
+
+  // who you're calling
+  /** Year the business started. Omitted = the line is dropped. */
+  since?: number
+  /** Two or three sentences in the owner's own voice. Omitted = no About section. */
+  about?: string
+  /** A photograph of the owner. The single most valuable photo on the site —
+      a real face beats any stock image. Omitted = the About section runs as text. */
+  aboutImage?: Photo
 
   // coverage
   baseTown: string
@@ -85,10 +110,14 @@ export interface ClientConfig {
 
 // src/config/client.ts — DEMO DATA. Overwrite in each client repo.
 export const client: ClientConfig = {
-  businessName: 'Dave Marlow Plumbing',
-  tagline: 'Bathrooms, radiators, leaks and emergency callouts',
+  businessName: 'Ian Smith Plumbing',
+  tagline: 'Bathrooms, heating, leaks and emergency callouts',
+  // His own words on Checkatrade: "I am reliable, polite and work to a high
+  // standard" and "considerate, tidy and courteous". The trade-and-town string
+  // moves to the eyebrow above it, and the local SEO sits on the area pages.
+  headline: 'Reliable, polite, and tidy',
   trade: 'plumber',
-  owner: 'Dave',
+  owner: 'Ian',
   voice: 'i',
 
   siteUrl: 'https://tradedemo.mpconsult.uk',
@@ -96,6 +125,10 @@ export const client: ClientConfig = {
 
   // Placeholder stock, free under the Pexels licence, no attribution required:
   // https://www.pexels.com/photo/29226620/ — replace with the client's own work photos.
+  // Square, opaque, 320px — a Google Business Profile export, not an original.
+  // Rendered as a tile for that reason; see SCAFFOLD.
+  logo: { file: 'logo.webp', alt: 'Ian Smith Plumbing' },
+
   heroImage: {
     file: 'hero-plumbing.jpg',
     alt: 'Plumber fitting a radiator valve, pipe wrenches laid out beside them',
@@ -106,48 +139,84 @@ export const client: ClientConfig = {
   phoneE164: '+447700900123',
   whatsappNumber: '447700900123',
 
-  gasSafe: { who: 'partner', number: '123456', engineer: 'Ben Whitlock' },
+  // No engineer name and no number yet, so the copy falls back to the unnamed
+  // wording and the number renders as a TODO badge rather than a guess.
+  gasSafe: { who: 'partner', number: 'TODO' },
+  // TODO: confirm. Checkatrade lists "Insurance Work Undertaken", which means he
+  // works on insurance claims — it is not a statement that he carries cover.
   insured: true,
+  credentials: [
+    'City & Guilds Level 2 qualified',
+    'Checkatrade vetted — 12 checks passed',
+    'Free estimates',
+    'Insurance work undertaken',
+    'Cards accepted',
+  ],
 
-  baseTown: 'Middleford',
+  since: 2014,
+  // Drawn from his own Checkatrade blurb — the Harrods line is his, and it is
+  // the most memorable thing on his profile.
+  about:
+    "I'm a sole trader based in Hook, covering a wide radius across Hampshire " +
+    'and the neighbouring counties. Before plumbing I spent years at Harrods in ' +
+    'Knightsbridge, which is where I learned what good service actually looks ' +
+    'like — being considerate, tidy and courteous is as much part of the job as ' +
+    "the plumbing itself. If you're in an emergency, ring me and I'll tell you " +
+    'what to do before I arrive.',
+  // No aboutImage in the demo on purpose: a stock portrait presented as the
+  // owner reads as fake, which is worse than no photo. Clients supply their own.
+
+  since: 2019,
+  // Postcodes on his reviews: RG27 Hook, RG21/RG23 Basingstoke, RG29 Odiham,
+  // GU34 Alton, GU12 Aldershot. Fleet and Hartley Wintney are adjacent and
+  // inside the same patch. TODO: confirm the outer edge with Ian.
+  baseTown: 'Hook',
   areas: [
-    { slug: 'middleford', name: 'Middleford' },
-    { slug: 'ashcombe', name: 'Ashcombe' },
-    { slug: 'netherby', name: 'Netherby' },
-    { slug: 'stanton-green', name: 'Stanton Green' },
+    { slug: 'hook', name: 'Hook' },
+    { slug: 'basingstoke', name: 'Basingstoke' },
+    { slug: 'fleet', name: 'Fleet' },
+    { slug: 'odiham', name: 'Odiham' },
+    { slug: 'hartley-wintney', name: 'Hartley Wintney' },
+    { slug: 'alton', name: 'Alton' },
+    { slug: 'aldershot', name: 'Aldershot' },
   ],
 
-  // Everyday work first, emergencies badged. Rendered in this order, so the
-  // list itself makes the point that emergency callouts are part of the job
-  // rather than the whole of it.
+  // Condensed from the 21 skills on his Checkatrade profile. Everyday work
+  // leads, emergencies badged. Water mains/moling and power flushing are real
+  // specialisms and most local plumbers don't list them.
   services: [
-    { name: 'Bathroom installations' },
-    { name: 'Radiators and heating' },
-    { name: 'Underfloor heating' },
-    { name: 'Taps, toilets and showers' },
-    { name: 'Leak repair', emergency: true },
-    { name: 'Burst pipes', emergency: true },
-    { name: 'Blocked drains', emergency: true },
-    { name: 'No water', emergency: true },
-    { name: 'Emergency callouts', emergency: true },
+    { name: 'Bathroom and kitchen plumbing', blurb: 'Full refits and bath-to-shower conversions — suite, tiling and everything reconnected.' },
+    { name: 'Water mains and lead pipes', blurb: 'Supply pipe replacement and repair, including moling so the garden stays intact.' },
+    { name: 'Radiators and valves', blurb: 'Installation, repairs and thermostatic valves, plus balancing when the heat will not get round.' },
+    { name: 'Underfloor heating', blurb: 'Wet systems installed and repaired, existing loops tested for blockages.' },
+    { name: 'Showers and taps', blurb: 'From a dripping tap to a new shower that actually runs properly.' },
+    { name: 'Power flushing', blurb: 'Sludge cleared out of the system so the radiators heat evenly again.' },
+    { name: 'Water pumps', blurb: 'Installed and repaired where the mains pressure will not do the job on its own.' },
+    { name: 'Blocked sinks, baths and toilets', emergency: true, blurb: 'Cleared without digging anything up.' },
+    { name: 'Leaks and plumbing repairs', emergency: true, blurb: 'Traced and fixed, from a weeping joint to a failed hot water cylinder.' },
   ],
 
+  // Verbatim single sentences from his Checkatrade reviews — no splicing, no
+  // ellipses. Three are named as the profile names them; the fourth is shown
+  // there only as a verified reviewer, so it says that rather than inventing one.
   reviews: [
-    { quote: 'Came out the same evening for a burst pipe. Sorted in an hour.', author: 'Sarah M.', source: 'Checkatrade' },
-    { quote: 'Honest, tidy, and told me what I did not need doing.', author: 'James P.', source: 'Checkatrade' },
-    { quote: 'Fitted our bathroom start to finish. Cleaned up every evening.', author: 'Priya N.', source: 'Checkatrade' },
-    { quote: 'Quoted on the Monday, done by Wednesday. No fuss.', author: 'Angela R.', source: 'Google' },
+    { quote: 'Across the project, he has been responsive, supportive, honest, transparent and professional.', author: 'Kevin P.', source: 'Checkatrade' },
+    { quote: 'The price was very competitive and agreed up front.', author: 'Kieran L.', source: 'Checkatrade' },
+    { quote: 'The work area and access were kept clean.', author: 'Peter F.', source: 'Checkatrade' },
+    { quote: 'He made the whole process easy and explained everything step by step.', author: 'Verified reviewer', source: 'Checkatrade' },
   ],
 
   rating: {
     source: 'Checkatrade',
-    score: 9.71,
+    score: 9.89,
     outOf: 10,
-    count: 48,
-    url: 'https://www.checkatrade.com/',
+    count: 95,
+    url: 'https://www.checkatrade.com/trades/iansmithplumbing',
   },
 
-  accent: '#1f4e79',
-  accentDark: '#153854',
+  // Sampled from the logo's droplet (#1789eb) and darkened: the raw blue is
+  // only 3.6:1 on white, which fails as link text. This clears 6.1:1.
+  accent: '#0a63b2',
+  accentDark: '#07477f',
   isDemo: true,
 }
