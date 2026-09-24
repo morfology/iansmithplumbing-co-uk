@@ -310,11 +310,11 @@ Cloudflare Pages, connected to the repo. Domain, DNS and hosting in one account.
 
 ## Definition of done for launch
 
-- [ ] No `TODO` badge renders anywhere on the site
-- [ ] No business-specific string appears outside `client.ts` and `/public`
-- [ ] Lighthouse mobile ≥ 95 across the board
+- [x] No `TODO` badge renders anywhere on the site
+- [x] No business-specific string appears outside `client.ts` and `/public`
+- [x] Lighthouse mobile ≥ 95 across the board — 100 / 95 / 100 / 100 on `/` and an area page (September 2026). Accessibility loses its last points to the WhatsApp button's 2:1 contrast, which is deliberate (see *Button colours*)
 - [ ] Button pair works on a real phone — call dials, WhatsApp opens with the prefill
-- [ ] `public/og.jpg` matches the config: name, number, areas. It's a static image, so a phone or area change in `client.ts` doesn't update it
+- [ ] `public/og.jpg` matches the config: name, number, areas — number fixed; the rating on it is still undated. It's a static image, so a phone or area change in `client.ts` doesn't update it
 - [ ] Link preview checks out: paste the live URL into WhatsApp and confirm the card renders
 
 ---
@@ -330,7 +330,7 @@ Blocking:
 
 Worth having:
 
-3. **The service radius.** Review postcodes prove RG27, RG21, RG23, RG29, GU34 and GU12; the config adds Fleet and Hartley Wintney as adjacent. Confirm the outer edge before generating area pages
+3. **The service radius.** Review postcodes prove RG27, RG21, RG23, RG29, GU34 and GU12; the config adds Fleet and Hartley Wintney as adjacent. The area pages are built from this list, so confirm the outer edge — and the drive times in each area's blurb
 4. **Where he says he is based.** `baseTown` is `'Hook'`; he may prefer Newnham or "the Hook area". One-line change, but it feeds the H1 fallback, the `<title>`, the eyebrow and the schema
 5. **When he actually started trading.** `since: 2019` is his Checkatrade join date, not necessarily his start date — he was at Harrods before plumbing
 6. **A photograph of Ian**, ideally by the van. `aboutImage` stays unset until it arrives. There are 30+ job photos on his profile worth pulling too

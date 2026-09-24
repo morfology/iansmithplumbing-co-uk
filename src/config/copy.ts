@@ -75,12 +75,9 @@ export const copy = {
   // rating badge
   rating: {
     outOf: (outOf: number) => `/ ${outOf}`,
-    /** Dated on purpose — "95 reviews on Checkatrade, September 2026". */
+    /** Dated on purpose — "95 reviews on <source>, <Month Year>". */
     summary: (count: number, source: string, asOf: string) =>
       `${count} reviews on ${source}, ${formatYearMonth(asOf)}`,
-    /** Read aloud in place of the badge's split-up numbers. */
-    label: (score: number, outOf: number, count: number, source: string, asOf: string) =>
-      `Rated ${score} out of ${outOf} from ${count} reviews on ${source}, as of ${formatYearMonth(asOf)}`,
   },
 
   // reviews

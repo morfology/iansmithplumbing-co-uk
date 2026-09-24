@@ -98,13 +98,14 @@
 
 /* Full-width bands in the client's colour — header, services, call band.
    The accent is picked to carry white text (client.ts checks it clears
-   4.5:1), so everything inside goes white or translucent white. Muted text at
-   88% still clears 4.5:1 on Ian's blue; cards and borders are white washes
-   so they tint with whatever accent the client has. */
+   4.5:1), so everything inside goes white or translucent white. Muted text is
+   measured on the *card*, not the band: the 8% wash lightens the ground, and
+   88% white fell to 4.44:1 there. 94% clears 4.8:1. Cards and borders are
+   white washes so they tint with whatever accent the client has. */
 .on-accent {
   --text: #ffffff;
   --link: #ffffff;
-  --muted: rgb(255 255 255 / 0.88);
+  --muted: rgb(255 255 255 / 0.94);
   --border: rgb(255 255 255 / 0.25);
   --surface: rgb(255 255 255 / 0.08);
 

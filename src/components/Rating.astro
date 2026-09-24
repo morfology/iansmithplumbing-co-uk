@@ -13,10 +13,9 @@ interface Props {
 }
 const { compact = false } = Astro.props
 
+// No aria-label: the visible text reads fine aloud and must stay inside the
+// accessible name (WCAG 2.5.3), so screen readers get exactly what's shown.
 const rating = client.rating
-const label = rating
-  ? copy.rating.label(rating.score, rating.outOf, rating.count, rating.source, rating.asOf)
-  : ''
 
 // A link when there's a profile to send people to, plain text when there isn't.
 const Tag = rating?.url ? 'a' : 'div'
@@ -36,9 +35,8 @@ const linkProps = rating?.url
         compact ? 'rounded-2xl px-3 py-1.5' : 'rounded-full px-4 py-2',
       ]}
       style="border-color: var(--border); background: var(--bg);"
-      aria-label={label}
     >
-      <span aria-hidden="true" class="flex shrink-0 items-baseline gap-0.5 whitespace-nowrap">
+      <span class="flex shrink-0 items-baseline gap-0.5 whitespace-nowrap">
         <span class={compact ? 'text-lg font-extrabold' : 'text-2xl font-extrabold'}>
           {rating.score}
         </span>
@@ -47,11 +45,10 @@ const linkProps = rating?.url
         </span>
       </span>
       <span
-        aria-hidden="true"
         class={compact ? 'text-sm' : 'text-base'}
         style="color: var(--muted);"
       >
-        <span class="mr-1">·</span>{copy.rating.summary(rating.count, rating.source, rating.asOf)}
+        <span class="mr-1" aria-hidden="true">·</span>{copy.rating.summary(rating.count, rating.source, rating.asOf)}
       </span>
     </Tag>
   )
