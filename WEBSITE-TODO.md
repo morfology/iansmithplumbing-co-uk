@@ -12,9 +12,9 @@
 
 ### Real data in
 
-- [ ] `phone: '07859 063383'` · `phoneE164: '+447859063383'` · `whatsappNumber: '447859063383'`
-- [ ] Remove the remaining demo values (`Marlow & Sons`, `Middleford`, Ofcom numbers) — nothing should reference them now
-- [ ] `siteUrl: 'https://iansmithplumbing.co.uk'`
+- [x] `phone: '07859 063383'` · `phoneE164: '+447859063383'` · `whatsappNumber: '447859063383'`
+- [x] Remove the remaining demo values (`Marlow & Sons`, `Middleford`, Ofcom numbers) — nothing should reference them now
+- [x] `siteUrl: 'https://iansmithplumbing.co.uk'`
 - [ ] `openingDate: 2010` → surface as "Serving Hook and North Hampshire since 2010"
 - [ ] Rename the repo `iansmithplumbing-site` (GitHub redirects the old name, so nothing breaks)
 
@@ -22,10 +22,10 @@
 
 `isDemo` currently drives both the banner **and** `noindex`. If it's left true — or defaults truthy — Ian's site ships invisible to Google. Given his profile is already suspended, that would be quietly catastrophic and hard to spot.
 
-- [ ] `isDemo` removed or explicitly `false` in Ian's config
-- [ ] Demo banner gone
+- [x] `isDemo` removed or explicitly `false` in Ian's config
+- [x] Demo banner gone
 - [ ] **View source on the deployed site and confirm there is no `noindex`** — don't trust the config, check the output
-- [ ] `robots.txt` allows crawling
+- [x] `robots.txt` allows crawling *(`Allow: /` plus the sitemap line; the build output has no `noindex` anywhere, so the check below is only waiting on a deploy)*
 
 ---
 
@@ -42,7 +42,7 @@
 ### 2 · "Fully insured" — currently unevidenced
 
 - [ ] **Ask Ian for his public liability certificate.** Checkatrade's *"Insurance Work Undertaken"* means he works on insurance claims — it is **not** a statement that he carries cover. The two got conflated
-- [ ] `insured: false` until the certificate is in hand
+- [x] `insured: false` until the certificate is in hand
 - [ ] He needs it for the LSA application anyway, so you're asking regardless
 - [ ] Record provider and expiry in the Notion asset register
 
@@ -72,7 +72,7 @@
 
 There's no public Checkatrade API and scraping it would be fragile and probably against their terms — so don't automate it. Date it instead, which is honest and ages gracefully.
 
-- [ ] Add to config:
+- [x] Add to config *(landed as `rating.asOf`, required on the `Rating` type)*:
   ```ts
   reviews: {
     rating: 9.89,
@@ -82,7 +82,7 @@ There's no public Checkatrade API and scraping it would be fragile and probably 
     url: 'https://...',     // his listing
   }
   ```
-- [ ] Render as: **9.89 / 10 · 95 reviews on Checkatrade, September 2026**
+- [x] Render as: **9.89 / 10 · 95 reviews on Checkatrade, September 2026**
 - [ ] Add "update review count and rating" to the **monthly report checklist** — a 30-second job inside a cadence that already exists
 - [ ] Same treatment for **"established 2010"** — that one's safe, it never goes stale
 
@@ -108,7 +108,7 @@ Different from the MP Consult site, where the audience *is* technical and a togg
 **Why light:** most visitors are on system default, which is light — especially the demographic buying plumbing. Light with a strong accent reads friendlier for a local trade and stays legible on a phone outdoors, which is exactly the situation someone's in. Dark reads premium and technical, which isn't the signal here.
 
 - [ ] Check both themes across: buttons, rating badge, emergency strip, review cards, photos, header
-- [ ] **No toggle.** Developer-audience feature; a third control competing with the two that matter
+- [x] **No toggle.** Developer-audience feature; a third control competing with the two that matter
 
 ---
 
@@ -161,7 +161,7 @@ Current hero is stock. Nothing else will make the site feel like *his* business 
 - [ ] `og:image` renders — **paste the URL into WhatsApp and check the card**
 - [ ] Buttons tested on a real phone: Call dials, WhatsApp opens with the prefill intact
 - [ ] Light and dark both checked
-- [ ] Lighthouse mobile clean
+- [x] Lighthouse mobile clean *(100 / 95 / 100 / 100 on `/` and an area page; the last accessibility points go to the WhatsApp button's 2:1 contrast, which is deliberate)*
 - [ ] `siteUrl` correct, canonical resolving
 - [ ] Deployed to Cloudflare Pages, custom domain live
 - [ ] **Google listing website field pointed at `.co.uk`** — part of the reinstatement fixes, since the `.com` currently resolves to a dead Wix placeholder
