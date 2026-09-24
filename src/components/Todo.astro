@@ -1,4 +1,6 @@
 ---
+import { copy } from '../config/copy'
+
 /** Visible placeholder for a config value we don't know yet. Impossible to miss,
     so nothing ships with a TODO still in it. */
 interface Props {
@@ -11,5 +13,5 @@ const { label } = Astro.props
   class="inline-block rounded px-1.5 py-0.5 text-xs font-bold tracking-wide uppercase"
   style="background: var(--todo-bg); color: var(--todo-text);"
 >
-  TODO — {label}
+  {copy.todo.prefix} — {label}
 </mark>

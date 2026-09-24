@@ -10,12 +10,23 @@ export interface Area {
   blurb?: string   // optional one-liner for the area page
 }
 
+export interface Service {
+  name: string
+  emergency?: boolean
+}
+
 export interface ClientConfig {
   // identity
   businessName: string
   tagline: string
   trade: string                 // "plumber" — used in copy and schema
   owner: string
+  /** First person singular or plural — drives every voice-dependent string in copy.ts. */
+  voice: 'i' | 'we'
+
+  // site
+  siteUrl: string               // 'https://tradedemo.mpconsult.uk' — no trailing slash
+  ogImage?: string              // '/og.jpg' — 1200×630; omitted = no og:image tags
 
   // contact
   phone: string                 // display: "07700 900123"
@@ -31,9 +42,8 @@ export interface ClientConfig {
   baseTown: string
   areas: Area[]
 
-  // services — drives the list and the area-page copy
-  services: string[]
-  emergencyServices: string[]   // the urgent subset, surfaced above the fold
+  // services — one list, rendered in config order, badged where emergency
+  services: Service[]
 
   // social proof
   reviews: Review[]
@@ -57,6 +67,10 @@ export const client: ClientConfig = {
   tagline: 'Leaks, burst pipes and emergency callouts',
   trade: 'plumber',
   owner: 'Dave',
+  voice: 'we',
+
+  siteUrl: 'https://tradedemo.mpconsult.uk',
+  ogImage: '/og.jpg',
 
   // Ofcom's reserved drama range — never a real subscriber
   phone: '07700 900123',
@@ -75,10 +89,14 @@ export const client: ClientConfig = {
   ],
 
   services: [
-    'Leak repair', 'Burst pipes', 'Emergency callouts',
-    'Taps and toilets', 'Radiators', 'Blocked drains',
+    { name: 'Leak repair', emergency: true },
+    { name: 'Burst pipes', emergency: true },
+    { name: 'No water', emergency: true },
+    { name: 'Emergency callouts', emergency: true },
+    { name: 'Taps and toilets' },
+    { name: 'Radiators' },
+    { name: 'Blocked drains' },
   ],
-  emergencyServices: ['Leak repair', 'Burst pipes', 'No water'],
 
   reviews: [
     { quote: 'Came out the same evening for a burst pipe. Sorted in an hour.', author: 'Sarah M.', source: 'Checkatrade' },

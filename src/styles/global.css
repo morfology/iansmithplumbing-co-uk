@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
-/* Tokens defined on :root first. --accent / --accent-dark are overridden inline
-   from client.ts in the base layout, so a new client is a config swap, not a
-   Tailwind rebuild. */
+/* Tokens defined on :root first. --accent / --accent-dark are deliberately NOT
+   declared here: they are set inline on <html> from client.ts, so a new client
+   is a config swap, not a Tailwind rebuild. No fallback here is the point — if
+   the inline declaration ever fails, the page breaks visibly rather than
+   quietly rendering the wrong brand colour. --accent-ink stays: it isn't
+   client-specific. */
 :root {
   color-scheme: light;
 
-  --accent: #1f2937;
-  --accent-dark: #111827;
   --accent-ink: #ffffff;
 
   --bg: #ffffff;

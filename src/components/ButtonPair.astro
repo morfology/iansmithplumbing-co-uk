@@ -2,6 +2,7 @@
 import { waLink, telLink } from '../lib/wa'
 import type { Source } from '../lib/wa'
 import { client } from '../config/client'
+import { copy } from '../config/copy'
 import { known } from '../lib/todo'
 import Todo from './Todo.astro'
 
@@ -32,11 +33,11 @@ const disabled = 'opacity-60 cursor-not-allowed'
         data-track-event="call_click"
         data-track-source={source}
       >
-        Call now
+        {copy.ctaCall}
       </a>
     ) : (
       <span class={`${base} ${disabled}`} style="background: var(--accent); color: var(--accent-ink);" aria-disabled="true">
-        Call now
+        {copy.ctaCall}
       </span>
     )
   }
@@ -49,11 +50,11 @@ const disabled = 'opacity-60 cursor-not-allowed'
         data-track-event="whatsapp_click"
         data-track-source={source}
       >
-        WhatsApp me
+        {copy.ctaWhatsApp}
       </a>
     ) : (
       <span class={`${base} ${disabled}`} style="background: #075e54; color: #ffffff;" aria-disabled="true">
-        WhatsApp me
+        {copy.ctaWhatsApp}
       </span>
     )
   }
@@ -62,9 +63,9 @@ const disabled = 'opacity-60 cursor-not-allowed'
 {
   !compact && (!tel || !wa || !phone) && (
     <p class="mt-2 flex flex-wrap gap-2">
-      {!phone && <Todo label="phone number (display)" />}
-      {!tel && <Todo label="phone number (tel: link)" />}
-      {!wa && <Todo label="whatsapp number" />}
+      {!phone && <Todo label={copy.todo.phoneDisplay} />}
+      {!tel && <Todo label={copy.todo.phoneLink} />}
+      {!wa && <Todo label={copy.todo.whatsapp} />}
     </p>
   )
 }

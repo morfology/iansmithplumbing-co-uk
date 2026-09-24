@@ -1,5 +1,6 @@
 ---
 import { client } from '../config/client'
+import { copy } from '../config/copy'
 import { known } from '../lib/todo'
 
 const { reviews, googleReviewUrl } = client
@@ -10,14 +11,20 @@ const reviewLink = known(googleReviewUrl)
   reviews.length > 0 && (
     <section class="px-5 py-10">
       <div class="mx-auto max-w-3xl">
-        <h2 class="text-2xl font-bold">What people say</h2>
+        <h2 class="text-2xl font-bold">{copy.reviewsHeading}</h2>
         <ul class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {reviews.map((review) => (
-            <li class="rounded-lg border p-4" style="border-color: var(--border);">
+          {reviews.map((review, i) => (
+            <li
+              class:list={[
+                'rounded-lg border p-4',
+                // odd count leaves a dangling card — let the last one span the row
+                i === reviews.length - 1 && reviews.length % 2 === 1 && 'sm:col-span-2',
+              ]}
+              style="border-color: var(--border);"
+            >
               <blockquote class="italic">"{review.quote}"</blockquote>
               <p class="mt-2 text-sm" style="color: var(--muted);">
-                — {review.author}
-                {review.source && <>, {review.source}</>}
+                {copy.reviewAttribution(review.author, review.source)}
               </p>
             </li>
           ))}
@@ -25,7 +32,7 @@ const reviewLink = known(googleReviewUrl)
         {reviewLink && (
           <p class="mt-4">
             <a href={reviewLink} class="underline" style="color: var(--link);">
-              Read more reviews
+              {copy.moreReviews}
             </a>
           </p>
         )}

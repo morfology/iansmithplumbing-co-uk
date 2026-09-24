@@ -1,14 +1,14 @@
 ---
 import { client } from '../config/client'
-import { orderedServices } from '../lib/seo'
+import { copy } from '../config/copy'
 
-const services = orderedServices()
-const isEmergency = (s: string) => client.emergencyServices.includes(s)
+// Config order is the order: one list, one source of truth.
+const { services } = client
 ---
 
 <section class="px-5 py-10">
   <div class="mx-auto max-w-3xl">
-    <h2 class="text-2xl font-bold">What I do</h2>
+    <h2 class="text-2xl font-bold">{copy.servicesHeading}</h2>
     <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
       {
         services.map((service) => (
@@ -16,13 +16,13 @@ const isEmergency = (s: string) => client.emergencyServices.includes(s)
             class="flex items-center justify-between gap-3 rounded-lg border px-4 py-3"
             style="border-color: var(--border);"
           >
-            <span>{service}</span>
-            {isEmergency(service) && (
+            <span>{service.name}</span>
+            {service.emergency && (
               <span
                 class="shrink-0 rounded px-2 py-0.5 text-xs font-bold uppercase"
                 style="background: var(--badge-bg); color: var(--badge-text);"
               >
-                Emergency
+                {copy.emergencyBadge}
               </span>
             )}
           </li>

@@ -1,7 +1,8 @@
 ---
 import { client } from '../config/client'
+import { copy } from '../config/copy'
 import { known } from '../lib/todo'
-import { joinNames, sentenceCase } from '../lib/seo'
+import { joinNames } from '../lib/seo'
 import Todo from './Todo.astro'
 
 const phone = known(client.phone)
@@ -22,7 +23,7 @@ const year = new Date().getFullYear()
             {phone}
           </a>
         ) : (
-          <Todo label="phone number" />
+          <Todo label={copy.todo.phone} />
         )
       }
     </p>
@@ -30,13 +31,13 @@ const year = new Date().getFullYear()
     {
       areaNames.length > 0 && (
         <p class="mt-2 text-sm" style="color: var(--muted);">
-          {sentenceCase(client.trade)} covering {joinNames(areaNames)}.
+          {copy.footerCoverage(joinNames(areaNames))}
         </p>
       )
     }
 
     <p class="mt-4 text-sm" style="color: var(--muted);">
-      © {year} {client.businessName}
+      {copy.copyright(year)}
     </p>
   </div>
 </footer>
