@@ -1,6 +1,7 @@
 ---
 import { client } from '../config/client'
 import { copy } from '../config/copy'
+import Icon from './Icon.astro'
 
 // Config order is the order: one list, one source of truth.
 const { services } = client
@@ -12,23 +13,33 @@ const { services } = client
     <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
       {
         services.map((service) => (
-          <li class="rounded-lg border px-4 py-3" style="border-color: var(--border);">
-            <div class="flex items-center justify-between gap-3">
-              <span class="font-semibold">{service.name}</span>
-              {service.emergency && (
-                <span
-                  class="shrink-0 rounded px-2 py-0.5 text-xs font-bold uppercase"
-                  style="background: var(--badge-bg); color: var(--badge-text);"
-                >
-                  {copy.emergencyBadge}
-                </span>
+          <li class="flex gap-3 rounded-lg border px-4 py-3" style="border-color: var(--border);">
+            {service.icon && (
+              <span
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                style="background: var(--accent); color: var(--accent-ink);"
+              >
+                <Icon name={service.icon} class="h-5 w-5" />
+              </span>
+            )}
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-3">
+                <span class="font-semibold">{service.name}</span>
+                {service.emergency && (
+                  <span
+                    class="shrink-0 rounded px-2 py-0.5 text-xs font-bold uppercase"
+                    style="background: var(--badge-bg); color: var(--badge-text);"
+                  >
+                    {copy.emergencyBadge}
+                  </span>
+                )}
+              </div>
+              {service.blurb && (
+                <p class="mt-1 text-sm" style="color: var(--muted);">
+                  {service.blurb}
+                </p>
               )}
             </div>
-            {service.blurb && (
-              <p class="mt-1 text-sm" style="color: var(--muted);">
-                {service.blurb}
-              </p>
-            )}
           </li>
         ))
       }

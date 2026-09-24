@@ -1,0 +1,24 @@
+---
+import { icons, type IconName } from '../lib/icons'
+
+interface Props {
+  name: IconName
+  class?: string
+}
+
+// Decorative only: every icon sits beside text that already says what it means.
+const { name, class: className } = Astro.props
+const [width, height, , , path] = icons[name].icon
+const d = Array.isArray(path) ? path.join(' ') : path
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={`0 0 ${width} ${height}`}
+  fill="currentColor"
+  aria-hidden="true"
+  focusable="false"
+  class={className}
+>
+  <path d={d} />
+</svg>

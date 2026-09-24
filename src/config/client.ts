@@ -1,3 +1,5 @@
+import type { IconName } from '../lib/icons'
+
 export interface Review {
   quote: string
   author: string   // "Sarah M." — first name + initial
@@ -26,9 +28,15 @@ export interface Area {
 export interface Service {
   name: string
   emergency?: boolean
+  icon?: IconName
   /** One line on what the job actually covers. A bare name doesn't tell
       someone whether their job is on the list. */
   blurb?: string
+}
+
+export interface Credential {
+  text: string
+  icon?: IconName
 }
 
 export interface ClientConfig {
@@ -74,7 +82,7 @@ export interface ClientConfig {
   }
   insured: boolean
   /** Anything else worth stating plainly — qualifications, vetting, terms. */
-  credentials?: string[]
+  credentials?: Credential[]
 
   // who you're calling
   /** Year the business started. Omitted = the line is dropped. */
@@ -139,21 +147,19 @@ export const client: ClientConfig = {
   phoneE164: '+447700900123',
   whatsappNumber: '447700900123',
 
-  // No engineer name and no number yet, so the copy falls back to the unnamed
-  // wording and the number renders as a TODO badge rather than a guess.
-  gasSafe: { who: 'partner', number: 'TODO' },
+  // No gasSafe: he can take on gas jobs through a registered engineer, but the
+  // site doesn't advertise gas work for now.
   // TODO: confirm. Checkatrade lists "Insurance Work Undertaken", which means he
   // works on insurance claims — it is not a statement that he carries cover.
   insured: true,
   credentials: [
-    'City & Guilds Level 2 qualified',
-    'Checkatrade vetted — 12 checks passed',
-    'Free estimates',
-    'Insurance work undertaken',
-    'Cards accepted',
+    { text: 'City & Guilds Level 2 qualified', icon: 'qualified' },
+    { text: 'Checkatrade vetted — 12 checks passed', icon: 'vetted' },
+    { text: 'Free estimates', icon: 'estimate' },
+    { text: 'Insurance work undertaken', icon: 'insurance' },
+    { text: 'Cards accepted', icon: 'card' },
   ],
 
-  since: 2014,
   // Drawn from his own Checkatrade blurb — the Harrods line is his, and it is
   // the most memorable thing on his profile.
   about:
@@ -185,15 +191,15 @@ export const client: ClientConfig = {
   // leads, emergencies badged. Water mains/moling and power flushing are real
   // specialisms and most local plumbers don't list them.
   services: [
-    { name: 'Bathroom and kitchen plumbing', blurb: 'Full refits and bath-to-shower conversions — suite, tiling and everything reconnected.' },
-    { name: 'Water mains and lead pipes', blurb: 'Supply pipe replacement and repair, including moling so the garden stays intact.' },
-    { name: 'Radiators and valves', blurb: 'Installation, repairs and thermostatic valves, plus balancing when the heat will not get round.' },
-    { name: 'Underfloor heating', blurb: 'Wet systems installed and repaired, existing loops tested for blockages.' },
-    { name: 'Showers and taps', blurb: 'From a dripping tap to a new shower that actually runs properly.' },
-    { name: 'Power flushing', blurb: 'Sludge cleared out of the system so the radiators heat evenly again.' },
-    { name: 'Water pumps', blurb: 'Installed and repaired where the mains pressure will not do the job on its own.' },
-    { name: 'Blocked sinks, baths and toilets', emergency: true, blurb: 'Cleared without digging anything up.' },
-    { name: 'Leaks and plumbing repairs', emergency: true, blurb: 'Traced and fixed, from a weeping joint to a failed hot water cylinder.' },
+    { name: 'Bathroom and kitchen plumbing', icon: 'bath', blurb: 'Full refits and bath-to-shower conversions — suite, tiling and everything reconnected.' },
+    { name: 'Water mains and lead pipes', icon: 'water', blurb: 'Supply pipe replacement and repair, including moling so the garden stays intact.' },
+    { name: 'Radiators and valves', icon: 'radiator', blurb: 'Installation, repairs and thermostatic valves, plus balancing when the heat will not get round.' },
+    { name: 'Underfloor heating', icon: 'underfloor', blurb: 'Wet systems installed and repaired, existing loops tested for blockages.' },
+    { name: 'Showers and taps', icon: 'shower', blurb: 'From a dripping tap to a new shower that actually runs properly.' },
+    { name: 'Power flushing', icon: 'flush', blurb: 'Sludge cleared out of the system so the radiators heat evenly again.' },
+    { name: 'Water pumps', icon: 'pump', blurb: 'Installed and repaired where the mains pressure will not do the job on its own.' },
+    { name: 'Blocked sinks, baths and toilets', icon: 'toilet', emergency: true, blurb: 'Cleared without digging anything up.' },
+    { name: 'Leaks and plumbing repairs', icon: 'leak', emergency: true, blurb: 'Traced and fixed, from a weeping joint to a failed hot water cylinder.' },
   ],
 
   // Verbatim single sentences from his Checkatrade reviews — no splicing, no

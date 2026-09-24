@@ -109,6 +109,17 @@
   color: var(--text);
 }
 
+/* The brand band at the very top — the client's colour, not a neutral. Used
+   by the header only: the accent is picked to carry white text (client.ts
+   checks it clears 4.5:1), so text and link both go white here. */
+.on-accent {
+  --text: #ffffff;
+  --link: #ffffff;
+
+  background: var(--accent);
+  color: var(--text);
+}
+
 html {
   background: var(--bg);
   color: var(--text);
