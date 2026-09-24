@@ -4,6 +4,14 @@ export interface Review {
   source?: string  // "Checkatrade"
 }
 
+export interface Rating {
+  source: string   // 'Checkatrade' — rendered verbatim, so match the platform's own name
+  score: number    // 9.89 — write it exactly as the profile shows it
+  outOf: number    // 10 on Checkatrade, 5 on Google
+  count: number    // 95
+  url?: string     // public profile — doubles as the "read more reviews" link
+}
+
 export interface Area {
   slug: string     // "middleford"
   name: string     // "Middleford"
@@ -27,6 +35,8 @@ export interface ClientConfig {
   // site
   siteUrl: string               // 'https://tradedemo.mpconsult.uk' — no trailing slash
   ogImage?: string              // '/og.jpg' — 1200×630; omitted = no og:image tags
+  /** Hero photograph: a file in src/assets/, plus its alt text. Omitted = text-only hero. */
+  heroImage?: { file: string; alt: string }
 
   // contact
   phone: string                 // display: "07700 900123"
@@ -47,8 +57,8 @@ export interface ClientConfig {
 
   // social proof
   reviews: Review[]
-  reviewCount?: number
-  googleReviewUrl?: string
+  /** Headline rating from a third-party platform. Omitted = no badge anywhere. */
+  rating?: Rating
 
   // look
   accent: string                // hex; wired to a CSS variable, see Tailwind below
@@ -71,6 +81,13 @@ export const client: ClientConfig = {
 
   siteUrl: 'https://tradedemo.mpconsult.uk',
   ogImage: '/og.jpg',
+
+  // Placeholder stock, free under the Pexels licence, no attribution required:
+  // https://www.pexels.com/photo/29226620/ — replace with the client's own work photos.
+  heroImage: {
+    file: 'hero-plumbing.jpg',
+    alt: 'Plumber fitting a radiator valve, pipe wrenches laid out beside them',
+  },
 
   // Ofcom's reserved drama range — never a real subscriber
   phone: '07700 900123',
@@ -103,6 +120,14 @@ export const client: ClientConfig = {
     { quote: 'Honest, tidy, and told me what I did not need doing.', author: 'James P.', source: 'Checkatrade' },
     { quote: 'Quoted on the Monday, done by Wednesday. No fuss.', author: 'Angela R.', source: 'Google' },
   ],
+
+  rating: {
+    source: 'Checkatrade',
+    score: 9.71,
+    outOf: 10,
+    count: 48,
+    url: 'https://www.checkatrade.com/',
+  },
 
   accent: '#1f4e79',
   accentDark: '#153854',

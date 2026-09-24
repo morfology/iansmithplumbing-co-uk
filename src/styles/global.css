@@ -11,6 +11,18 @@
 
   --accent-ink: #ffffff;
 
+  /* The two CTAs are fixed colours, not the client accent. Red reads as urgent
+     in any brand, and the green is WhatsApp's own — a customer recognises the
+     button before reading it. Ink is chosen per fill, not inherited: white on
+     this red is 6.5:1, but white on the green would be 2:1, so the green takes
+     dark ink. --wa-edge outlines the green, which is too light to define its
+     own edge on a white page. */
+  --call-bg: #b91c1c;
+  --call-ink: #ffffff;
+  --wa-bg: #25d366;
+  --wa-ink: #0b141a;
+  --wa-edge: #12a150;
+
   --bg: #ffffff;
   --surface: #f6f7f9;
   --text: #111827;
@@ -42,6 +54,16 @@
     color-scheme: dark;
 
     --accent-ink: #ffffff;
+
+    /* #b91c1c only clears 2.7:1 against the dark surface, so the button stops
+       reading as a button. Brighter red: 4.8:1 with white ink, 3.6:1 against
+       the surface behind it. The green already stands off a dark ground, so it
+       needs no separate edge. */
+    --call-bg: #dc2626;
+    --call-ink: #ffffff;
+    --wa-bg: #25d366;
+    --wa-ink: #0b141a;
+    --wa-edge: #25d366;
 
     --bg: #0d1117;
     --surface: #161b22;

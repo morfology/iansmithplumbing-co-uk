@@ -66,8 +66,7 @@ export interface ClientConfig {
 
   // social proof
   reviews: Review[]
-  reviewCount?: number
-  googleReviewUrl?: string
+  rating?: Rating               // score, count, platform and profile link
 
   // look
   accent: string                // hex; wired to a CSS variable, see Tailwind below
@@ -279,6 +278,7 @@ Someone with a leak, on 4G, standing in a puddle. **Under 2 seconds.**
 - Business name **identical** to the Google Business Profile, character for character
 - Phone number identical everywhere — website, GBP, Facebook, Checkatrade. Inconsistent numbers across citations quietly damage local ranking
 - `sitemap` and `robots.txt` via the Astro integration
+- **No `aggregateRating` in the JSON-LD.** The Checkatrade score is shown on the page but deliberately not marked up: Google treats a business marking up its own aggregate rating as self-serving, and the risk of a manual action outweighs a star snippet that may never appear. Revisit only if Checkatrade publishes an official badge/widget.
 
 ---
 
@@ -308,6 +308,6 @@ Cloudflare Pages, connected to the repo. Domain, DNS and hosting in one account.
 
 1. Ian's phone number
 2. Confirm service-area towns and radius
-3. Three or four short Checkatrade review quotes
+3. Three or four short Checkatrade review quotes — profile is **9.89 from 95 reviews**, goes in his repo's `client.ts` as `rating` (the template ships fictional demo numbers)
 4. Does he do boilers/heating? Changes the services list and possibly the business name
 5. Photos — 20+ of completed work, van, tools

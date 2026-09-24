@@ -60,10 +60,19 @@ export const copy = {
     v(`Based in ${town}, covering the surrounding towns and villages.`,
       `Based in ${town}, covering the surrounding towns and villages.`),
 
+  // rating badge
+  rating: {
+    outOf: (outOf: number) => `/ ${outOf}`,
+    summary: (count: number, source: string) => `${count} reviews on ${source}`,
+    /** Read aloud in place of the badge's split-up numbers. */
+    label: (score: number, outOf: number, count: number, source: string) =>
+      `Rated ${score} out of ${outOf} from ${count} reviews on ${source}`,
+  },
+
   // reviews
   reviewsHeading: 'What people say',
   reviewAttribution: (author: string, source?: string) => `— ${author}${source ? `, ${source}` : ''}`,
-  moreReviews: 'Read more reviews',
+  moreReviews: (source: string) => `Read more reviews on ${source}`,
 
   // credentials
   credentialsHeading: 'Credentials',
