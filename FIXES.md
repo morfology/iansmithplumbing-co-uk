@@ -1,4 +1,6 @@
 # FIXES — homepage review, round 1
+
+> **Applied — kept for the reasoning only.** Written when this repo was a demo template (Marlow & Sons, `tradedemo.mpconsult.uk`, a demo banner). None of those exist any more; the site is Ian's, live at `iansmithplumbing.co.uk`. Where this file and the code disagree, the code and `SCAFFOLD.md` win.
  
 Apply in order. Config first, then components. Re-run Lighthouse at the end.
  

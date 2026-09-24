@@ -20,8 +20,8 @@ export interface Rating {
 }
 
 export interface Area {
-  slug: string     // "middleford"
-  name: string     // "Middleford"
+  slug: string     // "hook"
+  name: string     // "Hook"
   blurb?: string   // optional one-liner for the area page
 }
 
@@ -52,7 +52,7 @@ export interface ClientConfig {
   headline?: string
 
   // site
-  siteUrl: string               // 'https://tradedemo.mpconsult.uk' — no trailing slash
+  siteUrl: string               // 'https://iansmithplumbing.co.uk' — no trailing slash
   ogImage?: string              // '/og.jpg' — 1200×630; omitted = no og:image tags
   /** Hero photograph. Omitted = text-only hero. */
   heroImage?: Photo
@@ -61,9 +61,9 @@ export interface ClientConfig {
   logo?: Photo
 
   // contact
-  phone: string                 // display: "07700 900123"
-  phoneE164: string             // tel: href, "+447700900123"
-  whatsappNumber: string        // wa.me, no + and no spaces: "447700900123"
+  phone: string                 // display: "07859 063383"
+  phoneE164: string             // tel: href, "+447859063383"
+  whatsappNumber: string        // wa.me, no + and no spaces: "447859063383"
   email?: string
 
   // credentials
@@ -113,7 +113,7 @@ export interface ClientConfig {
   eventEndpoint?: string        // n8n webhook for click events
 }
 
-// src/config/client.ts — DEMO DATA. Overwrite in each client repo.
+// src/config/client.ts — Ian Smith Plumbing.
 export const client: ClientConfig = {
   businessName: 'Ian Smith Plumbing',
   tagline: 'Bathrooms, heating, leaks and emergency callouts',
@@ -125,7 +125,7 @@ export const client: ClientConfig = {
   owner: 'Ian',
   voice: 'i',
 
-  siteUrl: 'https://tradedemo.mpconsult.uk',
+  siteUrl: 'https://iansmithplumbing.co.uk',
   ogImage: '/og.jpg',
 
   // Placeholder stock, free under the Pexels licence, no attribution required:
@@ -139,10 +139,11 @@ export const client: ClientConfig = {
     alt: 'Plumber fitting a radiator valve, pipe wrenches laid out beside them',
   },
 
-  // Ofcom's reserved drama range — never a real subscriber
-  phone: '07700 900123',
-  phoneE164: '+447700900123',
-  whatsappNumber: '447700900123',
+  // His mobile — calls and WhatsApp both. They only diverge if a call-tracking
+  // number is added later: phoneE164 changes, whatsappNumber stays.
+  phone: '07859 063383',
+  phoneE164: '+447859063383',
+  whatsappNumber: '447859063383',
 
   // No gasSafe: he can take on gas jobs through a registered engineer, but the
   // site doesn't advertise gas work for now.
@@ -167,8 +168,8 @@ export const client: ClientConfig = {
     "in people's homes and to leave things tidy, and I've kept that up. If " +
     "you've got an emergency, give me a ring and I'll tell you what to do " +
     'until I get there.',
-  // No aboutImage in the demo on purpose: a stock portrait presented as the
-  // owner reads as fake, which is worse than no photo. Clients supply their own.
+  // No aboutImage on purpose: a stock portrait presented as the
+  // owner reads as fake, which is worse than no photo. Waiting on a real one of Ian.
 
   since: 2019,
   // Postcodes on his reviews: RG27 Hook, RG21/RG23 Basingstoke, RG29 Odiham,

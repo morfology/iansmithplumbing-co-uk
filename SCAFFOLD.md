@@ -1,8 +1,8 @@
-# SCAFFOLD — Local trade site template
+# SCAFFOLD — Ian Smith Plumbing website
 
 **Drop this in the repo root and point Claude Code at it.**
 
-Astro + Tailwind. Static. Deploys to Cloudflare Pages. One config file drives everything so a new client is a data swap, not a rebuild.
+Astro + Tailwind. Static. Deploys to Cloudflare Pages at `iansmithplumbing.co.uk`. This is Ian's live site. It began as a reusable trade-site template, and it's still built so one config file drives everything; that's what keeps it cheap to change, and it means the code could seed another trade's site later.
 
 ---
 
@@ -10,7 +10,7 @@ Astro + Tailwind. Static. Deploys to Cloudflare Pages. One config file drives ev
 
 **No client-specific string appears anywhere except `src/config/client.ts`.**
 
-Not in a component, not in a page, not in a meta tag. If onboarding client two means editing one file and dropping in new photos, the template works. If it means grepping for "Ian", it doesn't.
+Not in a component, not in a page, not in a meta tag. Changing his phone number, his areas or his wording is an edit to one file, never a grep for "Ian".
 
 ---
 
@@ -88,79 +88,15 @@ export interface ClientConfig {
 }
 ```
 
-### The template must run standalone
+### Ian's config
 
-**The template ships with a complete demo config — never a client's.** `npm install && npm run dev` on a fresh clone must produce a finished-looking site with no edits.
+`src/config/client.ts` holds Ian's real data: business name, his mobile (`07859 063383`, which is used for calls and WhatsApp alike), `siteUrl: 'https://iansmithplumbing.co.uk'`, his areas, services, reviews and Checkatrade rating. The comments beside each value say where it came from.
 
-Three reasons this matters:
-
-1. You can run the template itself to check nothing broke after a change
-2. Deployed, it's a **live demo for prospects** — "here's what you'd get" beats any mockup
-3. A complete demo config proves the optional paths render (no reviews, no Gas Safe number)
-
-**Client data never enters the template repo.** A client repo is generated from the template, and `client.ts` is overwritten there with real values. Ian's site is `iansmithplumbing-site`, not a branch of the template.
-
-```ts
-// src/config/client.ts — DEMO DATA. Overwrite in each client repo.
-export const client: ClientConfig = {
-  businessName: 'Marlow & Sons Plumbing',
-  tagline: 'Leaks, burst pipes and emergency callouts',
-  trade: 'plumber',
-  owner: 'Dave',
-
-  // Ofcom's reserved drama range — never a real subscriber
-  phone: '07700 900123',
-  phoneE164: '+447700900123',
-  whatsappNumber: '447700900123',
-
-  gasSafeNumber: '123456',
-  insured: true,
-
-  baseTown: 'Middleford',
-  areas: [
-    { slug: 'middleford', name: 'Middleford' },
-    { slug: 'ashcombe', name: 'Ashcombe' },
-    { slug: 'netherby', name: 'Netherby' },
-    { slug: 'stanton-green', name: 'Stanton Green' },
-  ],
-
-  services: [
-    'Leak repair', 'Burst pipes', 'Emergency callouts',
-    'Taps and toilets', 'Radiators', 'Blocked drains',
-  ],
-  emergencyServices: ['Leak repair', 'Burst pipes', 'No water'],
-
-  reviews: [
-    { quote: 'Came out the same evening for a burst pipe. Sorted in an hour.', author: 'Sarah M.', source: 'Checkatrade' },
-    { quote: 'Honest, tidy, and told me what I did not need doing.', author: 'James P.', source: 'Checkatrade' },
-    { quote: 'Quoted on the Monday, done by Wednesday. No fuss.', author: 'Angela R.', source: 'Google' },
-  ],
-
-  accent: '#1f4e79',
-  accentDark: '#153854',
-}
-```
-
-**Keep the demo data safe.** Phone numbers come from Ofcom's reserved `07700 900xxx` drama range so no real person ever gets called.
-
-**No demo banner.** There used to be an `isDemo` flag that rendered a *"Demo site"* strip across the top. It's gone: the page is shown to prospects as it would look live, and a banner across the top undercuts exactly that.
-
-### Per-client values
-
-These go in the **client repo**, not here. Anything not yet known stays as the literal `'TODO'` and renders as a visible placeholder, so a missing phone number is obvious on the page rather than silently blank.
-
-Ian's, for reference when you generate his repo:
-
-| Field | Value |
-|---|---|
-| `businessName` | Ian Smith Plumbing |
-| `baseTown` | Newnham (Hampshire, RG27) |
-| `areas` | TODO — confirm radius. First guess: Hook, Hartley Wintney, Odiham, Fleet, Basingstoke |
-| `phone` / `phoneE164` / `whatsappNumber` | TODO |
-| `gasSafeNumber` | TODO — confirm he does gas at all |
-| `reviews` | TODO — 3–4 short quotes from his Checkatrade listing |
+Anything not yet known stays as the literal `'TODO'` and renders as a visible placeholder, so a missing value is obvious on the page rather than silently blank. **A `TODO` badge on the live site is a bug.** Check for them before every deploy.
 
 > **Phone note:** `phoneE164` and `whatsappNumber` are the same number in two formats. They only diverge if a call-tracking number is added later (Tier 2), at which point `phoneE164` changes and `whatsappNumber` stays on the mobile.
+
+**The buttons ring Ian's real phone.** Test the tel: and wa.me links by reading the markup, not by tapping them, unless Ian knows to expect the call.
 
 ---
 
@@ -372,35 +308,34 @@ Cloudflare Pages, connected to the repo. Domain, DNS and hosting in one account.
 
 ---
 
-## Definition of done for the template
+## Definition of done for launch
 
-- [ ] **`git clone && npm install && npm run dev` produces a complete, good-looking demo site with zero edits**
-- [ ] Onboarding a new client = edit `client.ts`, replace photos, deploy
-- [ ] No client name appears outside `client.ts` and `/public`
+- [ ] No `TODO` badge renders anywhere on the site
+- [ ] No business-specific string appears outside `client.ts` and `/public`
 - [ ] Lighthouse mobile ≥ 95 across the board
 - [ ] Button pair works on a real phone — call dials, WhatsApp opens with the prefill
-- [ ] Renders correctly with `reviews: []` and `gasSafeNumber: undefined` — not every client will have them
+- [ ] `public/og.jpg` matches the config: name, number, areas. It's a static image, so a phone or area change in `client.ts` doesn't update it
+- [ ] Link preview checks out: paste the live URL into WhatsApp and confirm the card renders
 
 ---
 
-## Open TODOs before building
+## Open TODOs before launch
 
 Confirmed from his Checkatrade profile (`/trades/iansmithplumbing`): **sole trader, Hook, Hampshire. 9.89 from 95 reviews. Checkatrade member since January 2019. City & Guilds Level 2. Domestic work only.** No Gas Safe accreditation is listed, which matches gas going to his mate.
 
 Blocking:
 
-1. **Phone and WhatsApp number.** The config carries an Ofcom drama number (`07700 900123`) that never connects
-2. **Gas work.** `gasSafe` is omitted for now, so the site says nothing about gas. If it comes back: the engineer's name and registration number, and whether the mate is happy to be named
-3. **Is he actually insured?** `insured: true` is currently an assumption. Checkatrade lists "Insurance Work Undertaken", which means he takes insurance-claim work — it is *not* a statement that he carries public liability cover
+1. **Gas work.** `gasSafe` is omitted for now, so the site says nothing about gas. If it comes back: the engineer's name and registration number, and whether the mate is happy to be named
+2. **Is he actually insured?** `insured: true` is currently an assumption. Checkatrade lists "Insurance Work Undertaken", which means he takes insurance-claim work — it is *not* a statement that he carries public liability cover
 
 Worth having:
 
-4. **The service radius.** Review postcodes prove RG27, RG21, RG23, RG29, GU34 and GU12; the config adds Fleet and Hartley Wintney as adjacent. Confirm the outer edge before generating area pages
-5. **Where he says he is based.** `baseTown` is `'Hook'`; he may prefer Newnham or "the Hook area". One-line change, but it feeds the H1 fallback, the `<title>`, the eyebrow and the schema
-6. **When he actually started trading.** `since: 2019` is his Checkatrade join date, not necessarily his start date — he was at Harrods before plumbing
-7. **A photograph of Ian**, ideally by the van. `aboutImage` stays unset until it arrives. There are 30+ job photos on his profile worth pulling too
-8. **The logo original**, if one exists — SVG or transparent PNG
+3. **The service radius.** Review postcodes prove RG27, RG21, RG23, RG29, GU34 and GU12; the config adds Fleet and Hartley Wintney as adjacent. Confirm the outer edge before generating area pages
+4. **Where he says he is based.** `baseTown` is `'Hook'`; he may prefer Newnham or "the Hook area". One-line change, but it feeds the H1 fallback, the `<title>`, the eyebrow and the schema
+5. **When he actually started trading.** `since: 2019` is his Checkatrade join date, not necessarily his start date — he was at Harrods before plumbing
+6. **A photograph of Ian**, ideally by the van. `aboutImage` stays unset until it arrives. There are 30+ job photos on his profile worth pulling too
+7. **The logo original**, if one exists — SVG or transparent PNG
 
 ### Competition
 
-`simonduffplumbing.co.uk` covers Woking, Guildford, Frimley, Camberley and Farnborough — overlapping patch. Weaker site (mailto as the primary CTA, "Reliable. Trusted. Local." as the H1) but it has the About section, per-service copy and "established 2014" that this template now has. Ian's 9.89 over 95 reviews is the thing they cannot match.
+`simonduffplumbing.co.uk` covers Woking, Guildford, Frimley, Camberley and Farnborough — overlapping patch. Weaker site (mailto as the primary CTA, "Reliable. Trusted. Local." as the H1) but it has the About section, per-service copy and "established 2014" that this site now has. Ian's 9.89 over 95 reviews is the thing they cannot match.
