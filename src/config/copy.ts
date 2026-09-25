@@ -75,9 +75,10 @@ export const copy = {
   // rating badge
   rating: {
     outOf: (outOf: number) => `/ ${outOf}`,
-    /** Dated on purpose — "95 reviews on <source>, <Month Year>". */
-    summary: (count: number, source: string, asOf: string) =>
-      `${count} reviews on ${source}, ${formatYearMonth(asOf)}`,
+    summary: (count: number, source: string) => `${count} reviews on ${source}`,
+    /** Dated on purpose: the score drifts, and an undated number becomes a
+        false claim. Short and quiet, but always visible — no hover. */
+    asOf: (asOf: string) => formatYearMonth(asOf, 'short'),
   },
 
   // reviews
