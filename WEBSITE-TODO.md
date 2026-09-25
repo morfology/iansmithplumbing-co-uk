@@ -92,23 +92,26 @@ There's no public Checkatrade API and scraping it would be fragile and probably 
 
 ---
 
-## 🌓 Theme — no toggle
+## 🌓 Theme — single dark theme ✅ DECIDED
 
-**Short answer: yes, a toggle is too nerdy here.** It's a developer-audience feature. Someone with water coming through their ceiling should not be offered a colour-scheme control — it's a third button competing with the two that matter.
+**Light mode dropped, 24 Sep.** The page is built as `.on-dark` and `.on-accent` full-width bands that don't flip with the theme, so light mode produced dark → blue → white stripes rather than a light design. Half a light design is worse than one committed look.
 
-Different from the MP Consult site, where the audience *is* technical and a toggle signals craft.
+- [x] `@media (prefers-color-scheme: dark)` removed; its values folded into `:root`
+- [x] `color-scheme: dark` on `:root`
+- [x] `.on-dark` / `.on-accent` unchanged — already theme-independent
+- [x] Comments rewritten so they describe the single theme, with ratios recalculated from the actual values
+- [x] `grep -rn "prefers-color-scheme\|dark:" src/` clean
 
-### Decision: light is primary
+### Outstanding
 
-**It may already be.** The accent `#0a63b2` was chosen and contrast-checked **against white** (6.1:1) — that's a light-first decision. What you were looking at was probably just dark mode firing because your Mac is set to dark.
+- [ ] **Rerun Lighthouse.** The previous 95 accessibility score was measured by headless Chrome rendering the *light* theme — colours that no longer exist. That number is not a baseline
+- [ ] **Decide the WhatsApp button.** White on `#25d366` is ~2:1 and will fail. It's a documented trade — brand recognition over contrast — not an oversight
+  - Keep `#25d366`: exact WhatsApp badge, fails contrast, Lighthouse flags it
+  - Switch to `#075e54`: ~7:1 with white, still obviously WhatsApp once the logo is on it
+  - **Steer: take the darker green.** The site exists to be usable by someone in a panic, and a good share of his customers will be older with reduced contrast sensitivity. The logo carries the recognition; the green doesn't have to be exact
+- [ ] Recheck the rating badge, emergency strip and review cards against the new base — they were tuned when a light theme existed
 
-- [ ] **Check first.** DevTools → Rendering → *Emulate prefers-color-scheme: light*. Or flip macOS appearance. If light already looks finished, there's nothing to do
-- [ ] If it doesn't, light gets the design attention and dark follows
-
-**Why light:** most visitors are on system default, which is light — especially the demographic buying plumbing. Light with a strong accent reads friendlier for a local trade and stays legible on a phone outdoors, which is exactly the situation someone's in. Dark reads premium and technical, which isn't the signal here.
-
-- [ ] Check both themes across: buttons, rating badge, emergency strip, review cards, photos, header
-- [x] **No toggle.** Developer-audience feature; a third control competing with the two that matter
+**No toggle.** Developer-audience feature; a third control competing with the two that matter.
 
 ---
 
