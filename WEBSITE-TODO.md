@@ -1,6 +1,6 @@
 # Website — working todo
 
-`trade-site-template` → `iansmithplumbing-site` · updated as we go
+`trade-site-template` → `iansmithplumbing-co-uk` · updated as we go
 
 ---
 
@@ -16,7 +16,7 @@
 - [x] Remove the remaining demo values (`Marlow & Sons`, `Middleford`, Ofcom numbers) — nothing should reference them now
 - [x] `siteUrl: 'https://iansmithplumbing.co.uk'`
 - [ ] `openingDate: 2010` → surface as "Serving Hook and North Hampshire since 2010"
-- [ ] Rename the repo `iansmithplumbing-site` (GitHub redirects the old name, so nothing breaks)
+- [x] Rename the repo `iansmithplumbing-co-uk` (GitHub redirects the old name, so nothing breaks)
 
 ### ⚠️ Check the demo flag can't noindex the live site
 
